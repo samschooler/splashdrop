@@ -1,0 +1,58 @@
+{% extends '../layout.html' %}
+
+{% block header-left %}
+<div class="menu left">
+  <ul class="menu-list">
+  </ul>
+</div>
+{% endblock header-left %}
+
+{% block header-right %}
+<a class="btn little-btn green" href="/checkout">
+  <span>Confirm Order</span>
+</a>
+{% endblock header-right %}
+
+{% block body %}
+<div class="section-header content">
+  <h2 class="section-header-title">Schedule Your Delivery</h2>
+  <h4 class="section-header-subtitle">On Demand or Scheduled.</h4>
+</div>
+<section class="delivery-settings content">
+  <div class="delivery-info-form">
+    <div>
+    <span class="delivery-type-text">Deliver my order </span><select class="delivery-selection delivery-type" name="delivery-type">
+      <option value="dis" disabled selected>when?</option>
+      <option value="now">now.</option>
+      <option value="later">later.</option>
+    </select>
+    </div>
+    <select class="delivery-selection delivery-date" name="delivery-date">
+      <option value="dis" disabled selected>Date..</option>
+    </select>
+    <select class="delivery-selection delivery-time" name="delivery-time">
+      <option value="dis" disabled selected>Time?</option>
+    </select>
+  </div>
+</section>
+<div class="section-header content">
+  <h2 class="section-header-title">Your Order</h2>
+</div>
+<section class="order-form content">
+  <div class="col col-60">
+    <h4>Your Info</h4>
+    <div class="">
+      <input type="text" name="name" value="" placeholder="Your Name" />
+      <input type="text" name="phone" value="" placeholder="Your Phone Number" />
+    </div>
+  </div>
+  <div class="col col-40">
+    <div class="order-recipt">
+      <ul class="order-products">
+        <li><span class="order-product-quantity">3 x</span><span class="order-product-name">Chocolate Chip Cookies</span><span class="order-product-price">$5</span><div class="clear"></div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="clear"></div>
+</section>
+{% endblock body %}

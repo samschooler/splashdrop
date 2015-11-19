@@ -1,0 +1,47 @@
+{% extends '../layout.html' %}
+
+{% block header-left %}
+<div class="menu left">
+  <ul class="menu-list">
+  </ul>
+</div>
+{% endblock header-left %}
+
+{% block header-right %}
+<a class="btn little-btn" href="/order">
+  <span class="quantity">{{ order.quantity || 0 }}</span>
+  <span>Checkout</span>
+</a>
+{% endblock header-right %}
+
+{% block body %}
+<div class="section-header content">
+  <h2 class="section-header-title">Pick Your Cookies</h2>
+  <h4 class="section-header-subtitle">Baked fresh everyday. Delivered with no fee.</h4>
+</div>
+<section class="products">
+  <div class="product big-product">
+    <div class="big-product-left col col-50">
+      <img class="big-product-image" src="/img/cookies.jpg" alt="Picture of Chocolate Chip Cookies" />
+    </div>
+    <div class="big-product-right col col-50">
+      <div class="product-info">
+        <h3 class="product-title">Classic Chocolate Chip Cookies</h3>
+        <p class="product-description">The original RollerBakers cookies. Classic soft and chewy chocolate chip cookies baked just for you.</p>
+        <div class="product-quanity-holder">
+          <button type="button" class="btn quant-btn big-action-btn blue">3</button>
+          <button type="button" class="btn quant-btn big-action-btn">6</button>
+          <button type="button" class="btn quant-btn big-action-btn">9</button>
+          <button type="button" class="btn quant-btn big-action-btn">12</button>
+        </div>
+        <div class="top-10">
+          <span class="product-price">$5</span>
+          <button type="button" class="product-add btn big-action-btn red top-10">Add to Order <i class="fa fa-arrow-circle-right"></i></button>
+        </div>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</section>
+{% endblock body %}

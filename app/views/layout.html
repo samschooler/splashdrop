@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "./includes/head.html" %}
+    {% block head %}{% endblock head %}
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-bar content">
+        <div class="logo left"><a href="/">ROLLERBAKERS</a></div>
+          {% block header-left %}{% endblock header-left %}
+        <div class="right">
+          {% block header-right %}{% endblock header-right %}
+        </div>
+        <div class="clear"></div>
+      </div>
+    </header>
+    {% block body %}{% endblock body %}
+    {% include "./includes/footer.html" %}
+  </body>
+</html>
