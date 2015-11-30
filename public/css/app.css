@@ -29,14 +29,14 @@
 .logo {
   width: 238px;
   height: 37px;
-  background-image: url('/img/background.png');
+  background-image: url('/img/rollerbakers.svg');
   text-indent: -9999px;
 }
 
 .logo.little {
   width: 47px;
   height: 37px;
-  background-image: url('/img/little_background.png');
+  background-image: url('/img/rbs.svg');
 }
 
 .logo a {
@@ -79,10 +79,10 @@
 
 
 .hero {
-  background: linear-gradient(
-    rgba(138, 116, 64, 0.65),
-    rgba(78, 31, 31, 0.65)
-    ),url('/img/cookies.jpg') no-repeat center center;
+      background: linear-gradient(
+        rgba(160, 146, 204, 0.46),
+        rgba(75, 92, 117, 0.49) ),
+        url('/img/hero.jpg') no-repeat center center;
   -webkit-background-size: cover; /* For WebKit*/
   -moz-background-size: cover;    /* Mozilla*/
   -o-background-size: cover;      /* Opera*/
@@ -178,36 +178,137 @@
   margin: 25px 10px 15px 0px;
 }
 
-.order-form .col {
+.order-form {
   padding: 10px;
 }
 
-.order-recipt {
+.order-info-col {
+  float: left;
+  box-sizing: border-box;
+}
+
+.order-info {
+  padding-right: 15px;
+}
+
+.order-form h4 {
+  margin: 0px 0px 10px;
+}
+
+.input-holder {
+  position: relative;
+}
+
+.pac-container:after {
+  display: none;
+}
+.pac-icon {
+  width: 0;
+  background-image: none;
+}
+
+.order-input {
+  padding-left: 15px;
+  margin-bottom: 15px;
+}
+.order-input:first-child {
+  padding-left: 0px;
+}
+
+.order-info input,
+.order-info textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
   background-color: #fcfcfc;
   border: 1px solid #ccc;
-  padding: 40px 20px 60px;
+  resize: none;
+  font-size: 16px;
+}
+
+@media (max-width:460px) {
+  .order-info input,
+  .order-info textarea {
+    font-size: 12px;
+  }
+}
+
+
+.delivery-info-form {
+  
+}
+
+.order-recipt-bg {
+  background-color: #fcfcfc;
+  border: 1px solid #ccc;
+  padding: 40px 20px;
+}
+
+.order-recipt {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.emptycart {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .order-products {
   padding: 0;
   margin: 0;
-  list-style: none;
+  width: 100%;
 }
 
 .order-product-quantity {
-  float: left;
-  padding-right: 10px;
+  text-align: right;
+  width:1%;
+  white-space:nowrap;
 }
+
+.order-product-price .fa-times, .order-product-price .fa-refresh {
+  color: #ccc;
+}
+
+.order-product-price .fa-refresh {
+  font-size: 15px;
+}
+
+button.product-remove {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline;
+  background-color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
 .order-product-name {
-  float: left;
 }
 .order-product-price {
+  text-align: right;
+}
+
+.total-text {
   float: right;
+  font-weight: 600;
+  text-align: right;
+  font-size: 20px;
+}
+.total-text .total-price {
+  font-size: 28px;
 }
 
 @media (max-width:770px) {
   .order-recipt {
-    max-width: 400px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .order-info {
+    padding-right: 0px;
+    max-width: 440px;
     margin: 0 auto;
   }
 }
@@ -233,7 +334,7 @@
   .logo {
     width: 47px;
     height: 37px;
-    background-image: url('/img/little_background.png');
+    background-image: url('/img/rbs.svg');
   }
 }
 
@@ -297,12 +398,12 @@ footer {
   font-weight: 300;
 }
 
-footer a {
+a {
     color: #888888;
     text-decoration: none;
 }
 
-footer a:hover {
+a:hover {
     color: #d8433d;
     text-decoration: none;
 }
