@@ -206,13 +206,13 @@ function App() {
 
   this.deliveryTypeChanged = function() {
     if($("select.delivery-type").val() == "later") {
-      $("span.delivery-date").show();
+      $(".delivery-date-holder").show();
       if($("select.delivery-date").val()) {
-        $("span.delivery-time").show();
+        $(".delivery-time-holder").show();
       }
     } else {
-      $("span.delivery-date").hide();
-      $("span.delivery-time").hide();
+      $(".delivery-date-holder").hide();
+      $(".delivery-time-holder").hide();
     }
   };
 
@@ -224,7 +224,7 @@ function App() {
     self.populateSelectData($("select.delivery-time").data("selectBox-selectBoxIt"), arr);
 
     if($("select.delivery-date").val()) {
-      $("span.delivery-time").show();
+      $(".delivery-time-holder").show();
       $(document.body).trigger("sticky_kit:recalc");
     }
   };
@@ -239,7 +239,6 @@ function App() {
   };
 
   this.setupGateway = function() {
-    console.log(0);
     $.ajax({
       type: "GET",
       url: '/order/clientToken',
@@ -255,7 +254,10 @@ function App() {
     ev.preventDefault();
     var form = $(ev.target);
 
-    form.find('button.confirm-order-btn').prop('disabled', true);
+    form.find('input, textarea, button, select').prop('disabled', true);
+
+    form.find('button.confirm-order-btn').addClass('hide');
+    form.find('.fa-refresh-div').removeClass('hide');
 
     var continueOrder = function(err, nonce) {
       var cData = {
@@ -311,22 +313,16 @@ function App() {
 
       var cardholder_name = form.find('input[data-braintree-name=cardholder_name]').val();
       var number = form.find('input[data-braintree-name=number]').val();
-      var expiration_month = form.find('input[data-braintree-name=expiration_month]').val();
-      var expiration_year = form.find('input[data-braintree-name=expiration_year]').val();
+      var expiration_date = form.find('input[data-braintree-name=expiration_date]').val();
       var cvv = form.find('input[data-braintree-name=cvv]').val();
-      var postal_code = form.find('input[data-braintree-name=postal_code]').val();
 
       // DO FUCKING VALIDATION
 
       self.btClient.tokenizeCard({
         number: number,
         cardholderName: cardholder_name,
-        expirationMonth: expiration_month,
-        expirationYear: expiration_year,
-        cvv: cvv,
-        billingAddress: {
-          postalCode: postal_code
-        }
+        expirationDate: expiration_date,
+        cvv: cvv
       }, continueOrder);
     } else {
       continueOrder(null, null);

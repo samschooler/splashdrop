@@ -235,7 +235,7 @@
 
 
 .delivery-info-form {
-  
+
 }
 
 .order-recipt-bg {
@@ -299,6 +299,15 @@ button.product-remove {
 }
 .total-text .total-price {
   font-size: 28px;
+}
+
+.fa-refresh-div {
+  text-align: center;
+  font-size: 53px;
+  height: 53px;
+  line-height: 53px;
+  margin-bottom: -8px;
+  color: #E9E9E9;
 }
 
 @media (max-width:770px) {

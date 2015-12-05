@@ -69,18 +69,16 @@
         <noscript>You can pay with cash or a credit card on delivery. In order to pay with a credit card now, you must turn on javascript.</noscript>
         <div class="delivery-payment-form js-required">
           <div class="input-holder">
-            <span class="order-input order-info-card-name order-info-col col-100"><input type="text" data-braintree-name="cardholder_name" value="" placeholder="Card Holder Name" /></span>
+            <span class="order-input order-info-card-number order-info-col col-100"><input type="text" autocomplete="off" data-braintree-name="number" value="" placeholder="Card Number" /></span>
             <div class="clear"></div>
           </div>
           <div class="input-holder">
-            <span class="order-input order-info-card-number order-info-col col-100"><input type="text" data-braintree-name="number" value="" placeholder="Card Number" /></span>
+            <span class="order-input order-info-card-name order-info-col col-50"><input type="text" autocomplete="off" data-braintree-name="cardholder_name" value="" placeholder="Card Holder Name" /></span>
+            <span class="order-input order-info-card-date order-info-col col-30"><input type="text"   autocomplete="off" data-braintree-name="expiration_date" value="" placeholder="MM/YY" /></span>
+            <span class="order-input order-info-card-cvc order-info-col col-20"><input type="text"  autocomplete="off" data-braintree-name="cvv" value="" placeholder="CVV" /></span>
             <div class="clear"></div>
           </div>
           <div class="input-holder">
-            <span class="order-input order-info-card-mm order-info-col col-20"><input type="text"   data-braintree-name="expiration_month" value="" placeholder="MM" /></span>
-            <span class="order-input order-info-card-yyyy order-info-col col-30"><input type="text" data-braintree-name="expiration_year" value="" placeholder="YYYY" /></span>
-            <span class="order-input order-info-card-cvc order-info-col col-25"><input type="text"  data-braintree-name="cvv" value="" placeholder="CVV" /></span>
-            <span class="order-input order-info-card-cvc order-info-col col-25"><input type="text"  data-braintree-name="postal_code" value="" placeholder="Zip Code" /></span>
             <div class="clear"></div>
           </div>
         </div>
@@ -111,15 +109,22 @@
                 <option value="now">now.</option>
                 <option value="later">later.</option>
               </select>
-              <select class="delivery-selection delivery-date" name="delivery-date">
-                <option value="dis" disabled selected>Date..</option>
-              </select>
-              <select class="delivery-selection delivery-time" name="delivery-time">
-                <option value="dis" disabled selected>Time?</option>
-              </select>
+              <div class="delivery-date-holder">
+                <select class="delivery-selection delivery-date" name="delivery-date">
+                  <option value="dis" disabled selected>Date..</option>
+                </select>
+              </div>
+              <div class="delivery-time-holder">
+                <select class="delivery-selection delivery-time" name="delivery-time">
+                  <option value="dis" disabled selected>Time?</option>
+                </select>
+              </div>
             </div>
           </div>
           <button class="confirm-order confirm-order-btn btn big-action-btn green{% if order.products.length == 0 %} disabled{% endif %}"{% if order.products.length == 0 %} disabled{% endif %}>Confirm Order</button>
+          <div class="fa-refresh-div hide">
+            <i class="fa fa-refresh fa-spin"></i>
+          </div>
         </div>
       </div>
       <div class="clear"></div>
