@@ -376,25 +376,26 @@ function App() {
     form.find('button.confirm-order-btn').addClass('hide');
     form.find('.fa-refresh-div').removeClass('hide');
 
+    var cData = {
+      name: form.find('[name=customer-name]').val(),
+      phone: form.find('[name=customer-phone]').val(),
+      email: form.find('[name=customer-email]').val(),
+
+      address: form.find('[name=delivery-address]').val(),
+      suite: form.find('[name=delivery-suite]').val(),
+      city: form.find('[name=delivery-city]').val(),
+      state: form.find('[name=delivery-state]').val(),
+      zip: form.find('[name=delivery-zip]').val(),
+      notes: form.find('[name=delivery-notes-js]').val(),
+
+      delivery_type: form.find('[name=delivery-type]').val() || "",
+      delivery_date: form.find('[name=delivery-date]').val() || "",
+      delivery_time: form.find('[name=delivery-time]').val() || ""
+    };
+
     var continueOrder = function(err, nonce) {
-      var cData = {
-        name: form.find('[name=customer-name]').val(),
-        phone: form.find('[name=customer-phone]').val(),
-        email: form.find('[name=customer-email]').val(),
 
-        address: form.find('[name=delivery-address]').val(),
-        suite: form.find('[name=delivery-suite]').val(),
-        city: form.find('[name=delivery-city]').val(),
-        state: form.find('[name=delivery-state]').val(),
-        zip: form.find('[name=delivery-zip]').val(),
-        notes: form.find('[name=delivery-notes-js]').val(),
-
-        delivery_type: form.find('[name=delivery-type]').val() || "",
-        delivery_date: form.find('[name=delivery-date]').val() || "",
-        delivery_time: form.find('[name=delivery-time]').val() || "",
-
-        payment_method_nonce: nonce || ""
-      };
+      cData.payment_method_nonce = nonce || "";
 
       var dataString =
         "name="+cData.name+
