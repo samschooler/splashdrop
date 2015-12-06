@@ -9,7 +9,38 @@ var blankOrder = {
 };
 
 function calcPrice(qt) {
-  return (qt === 0 ? 0 : Math.floor( ((qt*1.3)+1.5) - qt/8 ));
+  if(!parseInt(qt)) return 0;
+  switch(parseInt(qt)) {
+    case 0:  return 0;
+    case 1:  return 3;
+    case 2:  return 4;
+    case 3:  return 5;
+    case 4:  return 6;
+    case 5:  return 7;
+    case 6:  return 8;
+
+    case 7:  return 10;
+    case 8:  return 11;
+    case 9:  return 12;
+    case 10: return 13;
+    case 11: return 14;
+    case 12: return 15;
+
+    case 13: return 17;
+    case 14: return 18;
+    case 15: return 19;
+    case 16: return 20;
+    case 17: return 21;
+    case 18: return 22;
+
+    case 19: return 24;
+    case 20: return 25;
+    case 21: return 26;
+    case 22: return 27;
+    case 23: return 28;
+    case 24: return 29;
+    default: return 0;
+  }
 }
 
 exports.shop = function (req, res) {
@@ -24,7 +55,21 @@ exports.shop = function (req, res) {
   });
 };
 
-exports.addProduct = function (req, res) {
+exports.changeOrder = function (req, res) {
+  console.log("Welcome to change order! What do you want to do?");
+  console.log("> "+req.body.action);
+  switch(req.body.action) {
+    case "product-add":
+      console.log("Cool! lets add a product!");
+      return addProduct(req, res);
+    case "product-remove":
+      console.log("Awesome! Lets remove that product!");
+      return removeProduct(req, res);
+    default: return res.send();
+  }
+};
+
+var addProduct = function (req, res) {
   if(!req.session.order) {
     req.session.order = blankOrder;
   }
@@ -32,14 +77,14 @@ exports.addProduct = function (req, res) {
   console.log(JSON.stringify(req.body));
 
   var newItem = {
-    id: parseInt(req.params.productId),
+    id: parseInt(req.body.itemId),
     name: "",
     quantity: parseInt(req.body.qtbtn) || parseInt(req.body.quantity),
     price: 0
   };
 
   if(newItem.id !== null && newItem.quantity !== null) {
-    if(newItem.id === 0) {
+    if(newItem.id === 0 || newItem.id == 1) {
       newItem.name = "Chocolate Chip Cookies";
     } else {
       res.status(401);
@@ -47,9 +92,7 @@ exports.addProduct = function (req, res) {
       return;
     }
 
-    if(newItem.quantity == 3  || newItem.quantity == 6  || newItem.quantity == 9  ||
-       newItem.quantity == 12 || newItem.quantity == 15 || newItem.quantity == 18 ||
-       newItem.quantity == 21 || newItem.quantity == 24)
+    if(newItem.quantity > 0  && newItem.quantity <= 25)
     {
       newItem.price = calcPrice(newItem.quantity);
     } else {
@@ -81,12 +124,14 @@ exports.addProduct = function (req, res) {
   res.redirect('/shop');
 };
 
-exports.removeProduct = function (req, res) {
+var removeProduct = function (req, res) {
   if(!req.session.order) {
     req.session.order = blankOrder;
   }
 
-  var itemId = req.body.removeItem;
+  console.log(JSON.stringify(req.body));
+
+  var itemId = req.body.itemId;
 
   if(itemId !== null) {
     for (var i = 0; i < req.session.order.products.length; i++) {
@@ -120,8 +165,34 @@ exports.order = function (req, res) {
 };
 
 exports.submitOrder = function (req, res) {
-  var order = new Order();
+  var cData = {
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
 
+    address: req.body.address,
+    suite: req.body.suite,
+    city: req.body.city,
+    state: req.body.street,
+    zip: req.body.zip,
+    notes: req.body.notes,
+
+    delivery_type: req.body.delivery_type,
+    delivery_date: req.body.delivery_date,
+
+    payment_type: (req.body.payment_method_nonce ? "credit-card" : "cash" ),
+    payment_nonce: req.body.payment_method_nonce || ""
+  };
+
+  // DO FUCKING VALIDATION
+
+  var order = new Order(cData);
+  order.save(function (err) {
+    if (err) {
+      console.log(JSON.stringify(err));
+    }
+    console.log('meow');
+  });
 
   config.gateway.transaction.sale({
     amount: '1.00',

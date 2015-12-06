@@ -15,12 +15,11 @@ module.exports = function (app, passport) {
 
   app.get('/', home.index);
   app.get('/shop', checkout.shop);
-  app.post('/order/addProduct/:productId', checkout.addProduct);
-  app.post('/order/removeProduct', checkout.removeProduct);
+  app.post('/order', checkout.changeOrder);
   app.get('/order/clientToken', checkout.getOrderToken);
   app.get('/order', checkout.order);
   app.post('/order/checkout', checkout.submitOrder);
-  app.get('/order/success', checkout.order);
+  //app.get('/order/success', checkout.order);
 
   /**
    * Error handling
