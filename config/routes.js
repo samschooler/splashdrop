@@ -4,8 +4,8 @@
  */
 
 var mongoose = require('mongoose');
-var home = require('home');
-var checkout = require('checkout');
+var home = require('../app/controllers/home');
+var checkout = require('../app/controllers/checkout');
 
 /**
  * Expose

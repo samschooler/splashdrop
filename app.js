@@ -10,7 +10,6 @@ var passport = require('passport');
 var config = require('./config/config');
 
 var app = express();
-var port = process.env.PORT || 3000;
 
 // Connect to mongodb
 var connect = function () {
@@ -35,7 +34,5 @@ require('./config/express')(app, passport);
 
 // Bootstrap routes
 require('./config/routes')(app, passport);
-
-console.log('Express app started on port ' + port);
 
 module.exports = app;

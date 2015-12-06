@@ -1,4 +1,4 @@
-var config = require("config");
+var config = require("../../config/config");
 var mongoose = require("mongoose");
 var Order = mongoose.model('Order');
 

@@ -11,8 +11,8 @@
     "npm": ">= 1.0.0"
   },
   "scripts": {
-    "start": "NODE_PATH=./config:./app/controllers NODE_ENV=production ./node_modules/.bin/nodemon -e js,html server.js",
-    "test": "NODE_PATH=./config:./app/controllers NODE_ENV=test expresso test/*"
+    "start": "./node_modules/.bin/nodemon -e js,html server.js",
+    "test": "NODE_ENV=test expresso test/*"
   },
   "dependencies": {
     "body-parser": "^1.13.2",
