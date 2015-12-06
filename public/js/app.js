@@ -289,7 +289,7 @@ function App() {
 
     var itemId = parseInt(ctx.find("input[name=itemId]").val());
     if(isNaN(itemId)) {
-      itemId = parseInt(tar.val());
+      itemId = parseInt(tar.attr('data-id'));
     }
 
     tar.find('.fa-times').addClass('hide');

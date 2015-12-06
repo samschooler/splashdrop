@@ -16,6 +16,7 @@ module.exports = function (app, passport) {
   app.get('/', home.index);
   app.get('/shop', checkout.shop);
   app.post('/order', checkout.orderAction);
+  app.post('/order/removeProduct/:itemId', checkout.orderAction);
   app.get('/order/clientToken', checkout.getOrderToken);
   app.get('/order', checkout.order);
 

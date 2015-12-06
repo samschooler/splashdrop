@@ -61,6 +61,12 @@ exports.orderAction = function (req, res) {
     req.body.itemId = req.body["product-remove"];
   }
 
+  if(typeof req.params.itemId !== 'undefined' && req.path.indexOf('removeProduct/') > -1) {
+    req.body.itemId = req.params.itemId;
+  }
+
+  console.log(req.params.itemId +" "+req.body.itemId);
+
   console.log("Welcome to the order action interface! What do you want to do?");
   console.log("> "+req.body.action);
   switch(req.body.action) {
