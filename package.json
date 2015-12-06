@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "NODE_PATH=./config:./app/controllers NODE_ENV=production ./node_modules/.bin/nodemon -e js,html server.js",
-    "test": "NODE_PATH=./config:./app/controllers NODE_ENV=test node server.js"
+    "test": "NODE_PATH=./config:./app/controllers NODE_ENV=test expresso test/*"
   },
   "dependencies": {
     "body-parser": "^1.13.2",
