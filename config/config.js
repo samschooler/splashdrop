@@ -26,12 +26,8 @@ var defaults = {
  * Expose
  */
 
-console.log(process.env.NODE_ENV);
-
 module.exports = {
   development: dev,
   test: extend(test, defaults),
   production: extend(production, defaults)
 }[process.env.NODE_ENV || "production"];
-
-console.log(module.exports.db);
