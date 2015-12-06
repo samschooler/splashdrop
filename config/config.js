@@ -33,3 +33,5 @@ module.exports = {
   test: extend(test, defaults),
   production: extend(production, defaults)
 }[process.env.NODE_ENV || "production"];
+
+console.log(module.exports.db);
