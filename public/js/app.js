@@ -55,30 +55,32 @@ function App() {
         default: return false;
       }
     });
-    isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
-      var date = new Date();
-      for (var i = 0; i < 3; i++) {
-        while((date.getDay() == 6) || (date.getDay() === 0)) {
+    if(form.find('[name=delivery-type]').val() == "later" &&
+      isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
+        var date = new Date();
+        for (var i = 0; i < 3; i++) {
+          while((date.getDay() == 6) || (date.getDay() === 0)) {
+            date.setDate(date.getDate() + 1);
+          }
+          console.log($.datepicker.formatDate("m-d-yy", date) + " " + value);
+          if($.datepicker.formatDate("m-d-yy", date) == value) {
+            return true;
+          }
+
           date.setDate(date.getDate() + 1);
         }
-        console.log($.datepicker.formatDate("m-d-yy", date) + " " + value);
-        if($.datepicker.formatDate("m-d-yy", date) == value) {
-          return true;
-        }
-
-        date.setDate(date.getDate() + 1);
+        return false;
+      })) {
+        isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
+          switch (value) {
+            case "8-9": return true;
+            case "9-10": return true;
+            case "10-11": return true;
+            case "11-12": return true;
+            default: return false;
+          }
+        });
       }
-      return false;
-    });
-    isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
-      switch (value) {
-        case "8-9": return true;
-        case "9-10": return true;
-        case "10-11": return true;
-        case "11-12": return true;
-        default: return false;
-      }
-    });
 
     return isValid;
   };
@@ -143,7 +145,7 @@ function App() {
       var key = ctx.find("input[name=itemId]").val();
 
       if(isMultiple) {
-        ctx.find("input[name=quantity]").val(ctx.find("input[name=quantity]").val() || cQ[key] || 6);
+        ctx.find("input[name=quantity]").val(cQ[key] || ctx.find("input[name=quantity]").val() || 6);
       }
 
       var quant = ctx.find('input[name=quantity]').val();
