@@ -9,6 +9,7 @@ var blankOrder = {
 };
 
 function calcPrice(qt) {
+<<<<<<< HEAD
   if(!parseInt(qt)) return 0;
   switch(parseInt(qt)) {
     case 0:  return 0;
@@ -41,6 +42,9 @@ function calcPrice(qt) {
     case 24: return 29;
     default: return 0;
   }
+=======
+  return (qt === 0 ? 0 : Math.floor( ((qt*1.3)+1.5) - qt/8 ));
+>>>>>>> master
 }
 
 exports.shop = function (req, res) {
@@ -55,6 +59,7 @@ exports.shop = function (req, res) {
   });
 };
 
+<<<<<<< HEAD
 exports.changeOrder = function (req, res) {
   console.log("Welcome to change order! What do you want to do?");
   console.log("> "+req.body.action);
@@ -70,6 +75,9 @@ exports.changeOrder = function (req, res) {
 };
 
 var addProduct = function (req, res) {
+=======
+exports.addProduct = function (req, res) {
+>>>>>>> master
   if(!req.session.order) {
     req.session.order = blankOrder;
   }
@@ -77,14 +85,22 @@ var addProduct = function (req, res) {
   console.log(JSON.stringify(req.body));
 
   var newItem = {
+<<<<<<< HEAD
     id: parseInt(req.body.itemId),
+=======
+    id: parseInt(req.params.productId),
+>>>>>>> master
     name: "",
     quantity: parseInt(req.body.qtbtn) || parseInt(req.body.quantity),
     price: 0
   };
 
   if(newItem.id !== null && newItem.quantity !== null) {
+<<<<<<< HEAD
     if(newItem.id === 0 || newItem.id == 1) {
+=======
+    if(newItem.id === 0) {
+>>>>>>> master
       newItem.name = "Chocolate Chip Cookies";
     } else {
       res.status(401);
@@ -92,7 +108,13 @@ var addProduct = function (req, res) {
       return;
     }
 
+<<<<<<< HEAD
     if(newItem.quantity > 0  && newItem.quantity <= 25)
+=======
+    if(newItem.quantity == 3  || newItem.quantity == 6  || newItem.quantity == 9  ||
+       newItem.quantity == 12 || newItem.quantity == 15 || newItem.quantity == 18 ||
+       newItem.quantity == 21 || newItem.quantity == 24)
+>>>>>>> master
     {
       newItem.price = calcPrice(newItem.quantity);
     } else {
@@ -124,14 +146,22 @@ var addProduct = function (req, res) {
   res.redirect('/shop');
 };
 
+<<<<<<< HEAD
 var removeProduct = function (req, res) {
+=======
+exports.removeProduct = function (req, res) {
+>>>>>>> master
   if(!req.session.order) {
     req.session.order = blankOrder;
   }
 
+<<<<<<< HEAD
   console.log(JSON.stringify(req.body));
 
   var itemId = req.body.itemId;
+=======
+  var itemId = req.body.removeItem;
+>>>>>>> master
 
   if(itemId !== null) {
     for (var i = 0; i < req.session.order.products.length; i++) {
@@ -165,6 +195,7 @@ exports.order = function (req, res) {
 };
 
 exports.submitOrder = function (req, res) {
+<<<<<<< HEAD
   var cData = {
     name: req.body.name,
     phone: req.body.phone,
@@ -193,6 +224,10 @@ exports.submitOrder = function (req, res) {
     }
     console.log('meow');
   });
+=======
+  var order = new Order();
+
+>>>>>>> master
 
   config.gateway.transaction.sale({
     amount: '1.00',

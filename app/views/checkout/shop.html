@@ -25,12 +25,17 @@
       <img class="big-product-image" src="/img/cookies.jpg" alt="Picture of Chocolate Chip Cookies" />
     </div>
     <div class="big-product-right col col-50">
+<<<<<<< HEAD
       <form class="product-form" action="/order" method="post">
       <input type="hidden" name="itemId" value="0">
+=======
+      <form class="product-form" data-id="0" action="/order/addProduct/0" method="post">
+>>>>>>> master
       <div class="product-info">
         <h3 class="product-title">Classic Chocolate Chip Cookies</h3>
         <p class="product-description">The original RollerBakers cookies. Classic soft and chewy chocolate chip cookies baked just for you.</p>
         <div class="product-quanity-holder">
+<<<<<<< HEAD
           <div class="quantity-form">
             <button class="quantity-btn quant-cell js-required" data-modifier="-1"><i class="fa fa-minus"></i></button>
             <input class="quantity-value quant-cell" type="text" value="6" name="quantity" maxlength="2" />
@@ -51,6 +56,24 @@
             <span class="checkout hide">Checkout <i class="fa fa-shopping-cart"></i></span>
           </button>
           <span class="remove-btn js-required"><button type="submit" class="product-remove" name="action" value="product-remove"><i class="fa fa-times"></i><i class="fa fa-refresh fa-spin hide"></i></button></span>
+=======
+          <div><button type="submit" name="qtbtn" value="3" class="btn quant-btn big-action-btn no-hover">3</button>
+          <button type="submit" name="qtbtn" value="6" class="btn quant-btn big-action-btn no-hover">6</button>
+          <button type="submit" name="qtbtn" value="9" class="btn quant-btn big-action-btn no-hover">9</button>
+          <button type="submit" name="qtbtn" value="12" class="btn quant-btn big-action-btn no-hover">12</button></div>
+          <div><button type="submit" name="qtbtn" value="15" class="btn quant-btn big-action-btn no-hover">15</button>
+          <button type="submit" name="qtbtn" value="18" class="btn quant-btn big-action-btn no-hover">18</button>
+          <button type="submit" name="qtbtn" value="21" class="btn quant-btn big-action-btn no-hover">21</button>
+          <button type="submit" name="qtbtn" value="24" class="btn quant-btn big-action-btn no-hover">24</button></div>
+          <input type="hidden" name="quantity" value="6" />
+        </div>
+        <div class="top-10">
+          <span class="product-price"></span>
+          <button type="submit" name="submit" class="product-add btn big-action-btn red top-10 js-required">
+            <span class="add">Add to Order <i class="fa fa-arrow-circle-right"></i><i class="fa fa-refresh fa-spin hide"></i></span>
+            <span class="checkout hide">Checkout <i class="fa fa-shopping-cart"></i></span>
+          </button>
+>>>>>>> master
         </div>
 
       </div>

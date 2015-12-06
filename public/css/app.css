@@ -31,7 +31,10 @@
   height: 37px;
   background-image: url('/img/rollerbakers.svg');
   text-indent: -9999px;
+<<<<<<< HEAD
   background-repeat: no-repeat;
+=======
+>>>>>>> master
 }
 
 .logo.little {
@@ -166,6 +169,7 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
 .quantity-form {
   position: relative;
   display: table;
@@ -200,6 +204,10 @@
   text-align: center;
   outline: none;
   width: 40px;
+=======
+.product-quanity-holder {
+
+>>>>>>> master
 }
 
 .product-price {
@@ -211,11 +219,14 @@
   margin: 25px 10px 15px 0px;
 }
 
+<<<<<<< HEAD
 .product-info .product-remove {
   margin-left: 10px;
   color: #aaa;
 }
 
+=======
+>>>>>>> master
 .order-form {
   padding: 10px;
 }
@@ -501,8 +512,13 @@ a:hover {
 
 .quant-btn {
   border-radius: 100px !important;
+<<<<<<< HEAD
   width: 44px;
   height: 44px;
+=======
+  width: 50px;
+  height: 50px;
+>>>>>>> master
   padding: 0px;
   margin-right: 5px !important;
 }

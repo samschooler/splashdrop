@@ -19,12 +19,20 @@ var OrderSchema = new Schema({
   notes: { type: String, default: '' },
 
   payment_type: { type: String, default: '' },
+<<<<<<< HEAD
   payment_nonce: { type: String, default: '' },
 
   delivery_type: { type: String, default: '' },
   delivery_date: { type: Date, default: '' },
   delivery_items: { type: Object, default: {} },
   delivery_total: { type: Number, default: 0.00 },
+=======
+
+  delivery_type: { type: String, default: '' },
+  delivery_date: { type: Date, default: '' },
+  delivery_items: { type: Object, default: '' },
+  delivery_price: { type: Number, default: 0.00 },
+>>>>>>> master
 });
 
 mongoose.model('Order', OrderSchema);
