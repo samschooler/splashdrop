@@ -70,6 +70,15 @@ function App() {
       }
       return false;
     });
+    isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
+      switch (value) {
+        case "8-9": return true;
+        case "9-10": return true;
+        case "10-11": return true;
+        case "11-12": return true;
+        default: return false;
+      }
+    });
 
     return isValid;
   };

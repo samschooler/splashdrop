@@ -15,11 +15,9 @@ module.exports = function (app, passport) {
 
   app.get('/', home.index);
   app.get('/shop', checkout.shop);
-  app.post('/order', checkout.changeOrder);
+  app.post('/order', checkout.orderAction);
   app.get('/order/clientToken', checkout.getOrderToken);
   app.get('/order', checkout.order);
-  app.post('/order/checkout', checkout.submitOrder);
-  //app.get('/order/success', checkout.order);
 
   /**
    * Error handling

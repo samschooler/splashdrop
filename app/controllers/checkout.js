@@ -1,4 +1,4 @@
-var config = require("config");
+var config = require("../../config/config");
 var mongoose = require("mongoose");
 var Order = mongoose.model('Order');
 
@@ -60,7 +60,7 @@ exports.orderAction = function (req, res) {
     req.body.action = "product-remove";
     req.body.itemId = req.body["product-remove"];
   }
-  
+
   console.log("Welcome to the order action interface! What do you want to do?");
   console.log("> "+req.body.action);
   switch(req.body.action) {

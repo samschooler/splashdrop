@@ -15,6 +15,7 @@ try {
   fs.statSync('config/env/development.js');
   development = require('./env/development');
   dev = extend(development, defaults);
+  console.log("development!");
 }
 catch (e) {}
 
@@ -30,4 +31,4 @@ module.exports = {
   development: dev,
   test: extend(test, defaults),
   production: extend(production, defaults)
-}[process.env.NODE_ENV || "production"];
+}[process.env.NODE_ENV || "development"];
