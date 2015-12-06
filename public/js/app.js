@@ -6,7 +6,6 @@ Date.prototype.isSameDateAs = function(pDate) {
   );
 };
 
-<<<<<<< HEAD
 jQuery.fn.visible = function() {
     return this.css('visibility', 'visible');
 };
@@ -15,8 +14,6 @@ jQuery.fn.invisible = function() {
     return this.css('visibility', 'hidden');
 };
 
-=======
->>>>>>> master
 function App() {
   var self = this;
   var dateToday = new Date();
@@ -32,7 +29,6 @@ function App() {
   };
 
   this.calcPrice = function(qt) {
-<<<<<<< HEAD
     if(!parseInt(qt)) return 0;
     switch(parseInt(qt)) {
       case 0:  return 0;
@@ -69,12 +65,6 @@ function App() {
 
   this.quantityChanged = function(e, ev) {
     console.log("hey");
-=======
-    return (qt === 0 ? 0 : Math.floor( ((qt*1.3)+1.5) - qt/8 ));
-  };
-
-  this.quantityChanged = function(e, ev) {
->>>>>>> master
     var items, quant;
     var isMultiple = ev === undefined;
 
@@ -86,17 +76,10 @@ function App() {
 
     items.each(function() {
       var ctx = $( this );
-<<<<<<< HEAD
       var key = ctx.find("input[name=itemId]").val();
 
       if(isMultiple) {
         ctx.find("input[name=quantity]").val(ctx.find("input[name=quantity]").val() || cQ[key] || 6);
-=======
-      var key = ctx.attr('data-id');
-
-      if(isMultiple) {
-        ctx.find("input[name=quantity]").val(cQ[key] || ctx.find("input[name=quantity]").val());
->>>>>>> master
       }
 
       var quant = ctx.find('input[name=quantity]').val();
@@ -105,7 +88,6 @@ function App() {
       ctx.find('.quant-btn').removeClass('blue');
       ctx.find("button[value="+quant+"].quant-btn").addClass('blue');
 
-<<<<<<< HEAD
       if(!parseInt(quant) || parseInt(quant) > 24 || parseInt(quant) < 1) {
         ctx.find('.product-add').prop("disabled", true);
         ctx.find('.product-add').addClass("disabled");
@@ -116,30 +98,19 @@ function App() {
 
       // update total
       ctx.find(".product-price").html( "$"+self.calcPrice(quant) );
-=======
-      // update total
-      ctx.find(".product-price").html( "$"+self.calcPrice(quant) );
-
->>>>>>> master
       // update button
       if(cQ[key] == quant) {
         ctx.find('.product-add').removeClass('red');
         ctx.find('.product-add').addClass('green');
         ctx.find('.checkout').removeClass('hide');
         ctx.find('.add').addClass('hide');
-<<<<<<< HEAD
         ctx.find('.remove-btn').visible();
-=======
->>>>>>> master
       } else {
         ctx.find('.product-add').removeClass('green');
         ctx.find('.product-add').addClass('red');
         ctx.find('.add').removeClass('hide');
         ctx.find('.checkout').addClass('hide');
-<<<<<<< HEAD
         ctx.find('.remove-btn').invisible();
-=======
->>>>>>> master
       }
     });
   };
@@ -154,7 +125,6 @@ function App() {
     ctx.find("input[name=quantity]").val(qt).trigger('change', [ev]);
   };
 
-<<<<<<< HEAD
   this.quantityModify = function(ev, obj) {
     ev.preventDefault();
 
@@ -213,78 +183,43 @@ function App() {
     });
   };
 
-=======
->>>>>>> master
   this.productAdd = function(ev, obj) {
     ev.preventDefault();
 
     var ctx = $(ev.target).closest('.product-form');
     var quantity = parseInt(ctx.find("input[name=quantity]").val());
-<<<<<<< HEAD
     var itemId = parseInt(ctx.find("input[name=itemId]").val());
 
     // make button have refresh element
     ctx.find('.product-add .fa-arrow-circle-right').addClass('hide');
     ctx.find('.product-add .fa-refresh').removeClass('hide');
-=======
-
-    if(cQ[parseInt(ctx.attr('data-id'))] == quantity) {
-      window.location = '/order';
-    }
-
-    // make button have refresh element
-    ctx.find('.fa-arrow-circle-right').addClass('hide');
-    ctx.find('.fa-refresh').removeClass('hide');
->>>>>>> master
 
     // disable quantity buttons
     ctx.find(".quant-btn").prop("disabled",true);
 
-<<<<<<< HEAD
     if(cQ[parseInt(ctx.find("input[name=itemId]").val())] == quantity) {
       window.location = '/order';
     }
 
     // submit form
     var dataString = "action=product-add&itemId="+itemId+"&quantity="+quantity+"&_csrf="+ $("input[name=_csrf]").val();
-=======
-    // submit form
-    var dataString = "quantity="+quantity+"&_csrf="+ $("input[name=_csrf]").val();
->>>>>>> master
     $.ajax({
       type: "POST",
       url: ctx.attr('action'),
       data: dataString,
       cache: false,
       success: function(result){
-<<<<<<< HEAD
         ctx.find('.product-add .fa-arrow-circle-right').removeClass('hide');
         ctx.find('.product-add .fa-refresh').addClass('hide');
         ctx.find(".quant-btn").prop("disabled",false);
 
         self.updateCQ(ctx, quantity);
-=======
-        ctx.find('.fa-arrow-circle-right').removeClass('hide');
-        ctx.find('.fa-refresh').addClass('hide');
-        ctx.find(".quant-btn").prop("disabled",false);
-
-        cQ[parseInt(ctx.attr('data-id'))] = quantity;
-
-        ctx.find('.product-add').removeClass('red');
-        ctx.find('.product-add').addClass('green');
-        ctx.find('.checkout').removeClass('hide');
-        ctx.find('.add').addClass('hide');
-
-        $('.quantity').html(self.calcQuantity());
-        $('.checkout-btn').removeClass('hide');
->>>>>>> master
       }
     });
   };
 
   this.productRemove = function(ev, obj) {
     ev.preventDefault();
-<<<<<<< HEAD
     var ctx = $(ev.target).closest('.product-form');
     var tar = $(ev.target).closest('.product-remove');
 
@@ -292,17 +227,12 @@ function App() {
     if(isNaN(itemId)) {
       itemId = parseInt(tar.val());
     }
-=======
-
-    var tar = $(ev.target).closest('.product-remove');
->>>>>>> master
 
     tar.find('.fa-times').addClass('hide');
     tar.find('.fa-refresh').removeClass('hide');
     tar.prop("disabled",false);
 
     // submit form
-<<<<<<< HEAD
     var dataString = "action=product-remove&itemId="+itemId+"&_csrf="+ $("input[name=_csrf]").val();
     $.ajax({
       type: "POST",
@@ -318,18 +248,6 @@ function App() {
         tar.find('.fa-refresh').addClass('hide');
 
         self.updateCQ(ctx, 0);
-=======
-    var dataString = "removeItem="+tar.val()+"&_csrf="+ $("input[name=_csrf]").val();
-    $.ajax({
-      type: "POST",
-      url: "/order/removeProduct",
-      data: dataString,
-      cache: false,
-      success: function(result){
-        tar.closest('.order-product').remove();
-
-        $('.total-quantity').html(parseInt($('.total-quantity').html())-parseInt(tar.closest('.order-product').find('.order-product-quantity').html()));
->>>>>>> master
 
         var total = 0;
         for (var i = 0; i < $('.the-real-price').length; i++) {
@@ -354,19 +272,14 @@ function App() {
   };
 
   this.populateDeliveryDates = function() {
-<<<<<<< HEAD
     function dateString(date) {
       return {text: $.datepicker.formatDate("DD M d", date), value: $.datepicker.formatDate("m-d-yy", date)};
     }
-
-=======
->>>>>>> master
     var date = new Date(dateToday);
     var dateStrings = [];
     while((date.getDay() == 6) || (date.getDay() === 0)) {
       date.setDate(date.getDate() + 1);
     }
-<<<<<<< HEAD
 
     if(!dateToday.isSameDateAs(date)) {
       dateStrings[0] = dateString(date);
@@ -383,19 +296,6 @@ function App() {
       date.setDate(date.getDate() + 1);
     } while((date.getDay() == 6) || (date.getDay() === 0));
     dateStrings[2] = dateString(date);
-=======
-    if(date.getHours() < 23) {
-      dateStrings[0] = {text: "Today", value: date.toISOString()};
-    }
-    do {
-      date.setDate(date.getDate() + 1);
-    } while((date.getDay() == 6) || (date.getDay() === 0));
-    dateStrings[1] = {text: $.datepicker.formatDate("DD M d", date), value: date.toISOString()};
-    do {
-      date.setDate(date.getDate() + 1);
-    } while((date.getDay() == 6) || (date.getDay() === 0));
-    dateStrings[2] = {text: $.datepicker.formatDate("DD M d", date), value: date.toISOString()};
->>>>>>> master
 
     return dateStrings;
   };
@@ -462,10 +362,6 @@ function App() {
       url: '/order/clientToken',
       cache: false,
       success: function(token){
-<<<<<<< HEAD
-=======
-        console.log(token);
->>>>>>> master
         self.btClient = new braintree.api.Client({clientToken: token});
       }
     });
@@ -484,10 +380,7 @@ function App() {
       var cData = {
         name: form.find('[name=customer-name]').val(),
         phone: form.find('[name=customer-phone]').val(),
-<<<<<<< HEAD
         email: form.find('[name=customer-email]').val(),
-=======
->>>>>>> master
 
         address: form.find('[name=delivery-address]').val(),
         suite: form.find('[name=delivery-suite]').val(),
@@ -506,10 +399,7 @@ function App() {
       var dataString =
         "name="+cData.name+
         "&phone="+cData.phone+
-<<<<<<< HEAD
         "&email="+cData.email+
-=======
->>>>>>> master
 
         "&address="+cData.address+
         "&suite="+cData.suite+
@@ -569,7 +459,6 @@ function App() {
   };
 
   this.initShop = function() {
-<<<<<<< HEAD
     // input quantity
     $(".quantity-btn").bind("click", this.quantityModify);
     $("input[name=quantity]").bind("blur", this.quantityModify);
@@ -585,11 +474,6 @@ function App() {
     // product buttons
     $("[type=submit].product-add").bind("click", this.productAdd);
     $("[type=submit].product-remove").bind("click", this.productRemove);
-=======
-    $(".quant-btn").bind("click", this.quantityButtonClicked);
-    $("[type=submit].product-add").bind("click", this.productAdd);
-    $("input[name=quantity]").bind("change", this.quantityChanged);
->>>>>>> master
 
     this.quantityChanged();
   };

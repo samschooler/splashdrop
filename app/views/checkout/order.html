@@ -90,7 +90,6 @@
         <h4 class="left">Your Items (<span class="total-quantity">{{order.quantity}}</span>)</h4><a href="/shop" class="right">Edit Order</a>
         <div class="clear"></div>
         <div class="order-recipt-bg">
-<<<<<<< HEAD
           <table class="order-products product-form">
             {% for item in order.products %}
             <tr class="order-product">
@@ -105,22 +104,11 @@
                 </button>
               </td>
             </tr>
-=======
-          <form class="products-form" action="/order/removeProduct" method="post">
-          <table class="order-products">
-            {% for item in order.products %}
-            <tr class="order-product"><td class="order-product-quantity">{{ item.quantity }}</td><td>x</td><td class="order-product-name">{{ item.name }}</td><td class="order-product-price">$<span class="the-real-price">{{ item.price }}</span> <button type="submit" class="product-remove" name="removeItem" value="{{ item.id }}"><i class="fa fa-times"></i><i class="fa fa-refresh fa-spin hide"></i></button></td></tr>
->>>>>>> master
             {% endfor %}
           </table>
           <a href="/shop" class="emptycart {% if order.products.length != 0 %} hide{% endif %}">Your cart is empty! Add something to it!</a>
           <hr class="top-30">
           <div class="total-text">Total : <span class="total-price">${{ order.price }}</span></div>
-<<<<<<< HEAD
-=======
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-          </form>
->>>>>>> master
           <div class="clear"></div>
           <div class="delivery-info-form top-20">
             <div class="js-required dont-spill">
@@ -141,11 +129,7 @@
               </div>
             </div>
           </div>
-<<<<<<< HEAD
           <button name="checkout" value="checkout" class="confirm-order confirm-order-btn btn big-action-btn green{% if order.products.length == 0 %} disabled{% endif %}"{% if order.products.length == 0 %} disabled{% endif %}>Confirm Order</button>
-=======
-          <button class="confirm-order confirm-order-btn btn big-action-btn green{% if order.products.length == 0 %} disabled{% endif %}"{% if order.products.length == 0 %} disabled{% endif %}>Confirm Order</button>
->>>>>>> master
           <div class="fa-refresh-div hide">
             <i class="fa fa-refresh fa-spin"></i>
           </div>
@@ -153,10 +137,7 @@
       </div>
       <div class="clear"></div>
     </div>
-<<<<<<< HEAD
     <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-=======
->>>>>>> master
   </form>
   </section>
   <div class="clear order-bottom"></div>
