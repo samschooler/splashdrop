@@ -25,7 +25,7 @@
   <section class="delivery-settings content">
 
   </section>
-  <form class="delivery-form" action="/order/checkout" method="post">
+  <form class="delivery-form" action="/order" method="post">
   <section class="col-container">
     <div class="col col-60">
       <div class="order-info">
@@ -98,10 +98,10 @@
               <td class="order-product-name">{{ item.name }}</td>
               <td class="order-product-price">
                 $<span class="the-real-price">{{ item.price }}</span>
-                <button type="submit" class="product-remove" name="product-remove" value="{{ item.id }}">
+                <a href="/order/removeProduct/{{ item.id }}" class="product-remove" name="product-remove" value="{{ item.id }}">
                   <i class="fa fa-times"></i>
                   <i class="fa fa-refresh fa-spin hide"></i>
-                </button>
+                </a>
               </td>
             </tr>
             {% endfor %}
@@ -129,7 +129,7 @@
               </div>
             </div>
           </div>
-          <button name="checkout" value="checkout" class="confirm-order confirm-order-btn btn big-action-btn green{% if order.products.length == 0 %} disabled{% endif %}"{% if order.products.length == 0 %} disabled{% endif %}>Confirm Order</button>
+          <button name="action" value="checkout" class="confirm-order confirm-order-btn btn big-action-btn green{% if order.products.length == 0 %} disabled{% endif %}"{% if order.products.length == 0 %} disabled{% endif %}>Confirm Order</button>
           <div class="fa-refresh-div hide">
             <i class="fa fa-refresh fa-spin"></i>
           </div>

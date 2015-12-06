@@ -19,6 +19,61 @@ function App() {
   var dateToday = new Date();
   var btClient;
 
+  this.isFormValid = function(form, d) {
+    var isValid = true;
+    function isItemValid(element, value, isCustomValid, canBeEmpty) {
+      if( !canBeEmpty && (value === "" || value === null) ||
+          typeof isCustomValid !== 'undefined' && isCustomValid !== null && !isCustomValid(value, form) )
+      {
+        isValid = false;
+        form.find(element).addClass("error");
+        return false;
+      } else {
+        form.find(element).removeClass("error");
+        return true;
+      }
+    }
+
+    isItemValid('[name=customer-name]', d.name);
+    isItemValid('[name=customer-phone]', d.phone, function(value) {
+      return true;
+    });
+    isItemValid('[name=customer-email]', d.email, function(value) {
+      return true;
+    });
+
+    isItemValid('[name=delivery-address]', d.address);
+    // suite is optional
+    isItemValid('[name=delivery-city]', d.city);
+    isItemValid('[name=delivery-state]', d.state);
+    isItemValid('[name=delivery-zip]', d.zip);
+
+    isItemValid('[name=delivery-type]', d.delivery_type, function(value) {
+      switch (value) {
+        case "now": return true;
+        case "later": return true;
+        default: return false;
+      }
+    });
+    isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
+      var date = new Date();
+      for (var i = 0; i < 3; i++) {
+        while((date.getDay() == 6) || (date.getDay() === 0)) {
+          date.setDate(date.getDate() + 1);
+        }
+        console.log($.datepicker.formatDate("m-d-yy", date) + " " + value);
+        if($.datepicker.formatDate("m-d-yy", date) == value) {
+          return true;
+        }
+
+        date.setDate(date.getDate() + 1);
+      }
+      return false;
+    });
+
+    return isValid;
+  };
+
   this.calcQuantity = function() {
     var keys = Object.keys(cQ);
     var total = 0;
@@ -232,6 +287,8 @@ function App() {
     tar.find('.fa-refresh').removeClass('hide');
     tar.prop("disabled",false);
 
+    $('.confirm-order').prop("disabled", true);
+
     // submit form
     var dataString = "action=product-remove&itemId="+itemId+"&_csrf="+ $("input[name=_csrf]").val();
     $.ajax({
@@ -258,7 +315,9 @@ function App() {
         if($('.order-product').length === 0 ) {
           $('.emptycart').removeClass('hide');
           $('.confirm-order').addClass("disabled");
-          $('.confirm-order').prop("disabled",true);
+          $('.confirm-order').prop("disabled", true);
+        } else {
+          $('.confirm-order').prop("disabled", false);
         }
         $(document.body).trigger("sticky_kit:recalc");
       }
@@ -275,6 +334,7 @@ function App() {
     function dateString(date) {
       return {text: $.datepicker.formatDate("DD M d", date), value: $.datepicker.formatDate("m-d-yy", date)};
     }
+
     var date = new Date(dateToday);
     var dateStrings = [];
     while((date.getDay() == 6) || (date.getDay() === 0)) {
@@ -393,11 +453,25 @@ function App() {
       delivery_time: form.find('[name=delivery-time]').val() || ""
     };
 
+    var error = !self.isFormValid(form, cData);
+
+    if(error) {
+      console.log("error!");
+
+      form.find('input, textarea, button, select').prop('disabled', false);
+
+      form.find('button.confirm-order-btn').removeClass('hide');
+      form.find('.fa-refresh-div').addClass('hide');
+
+      return;
+    }
+
     var continueOrder = function(err, nonce) {
 
       cData.payment_method_nonce = nonce || "";
 
       var dataString =
+        "action=checkout" +
         "name="+cData.name+
         "&phone="+cData.phone+
         "&email="+cData.email+
@@ -429,8 +503,7 @@ function App() {
     };
 
     // check if they are paying now
-    if(form.find('select[name=payment-type]').val() == 'credit-card') {
-
+    if(!error && form.find('select[name=payment-type]').val() == 'credit-card') {
       var cardholder_name = form.find('input[data-braintree-name=cardholder_name]').val();
       var number = form.find('input[data-braintree-name=number]').val();
       var expiration_date = form.find('input[data-braintree-name=expiration_date]').val();
@@ -444,7 +517,7 @@ function App() {
         expirationDate: expiration_date,
         cvv: cvv
       }, continueOrder);
-    } else {
+    } else if(!error) {
       continueOrder(null, null);
     }
   };
@@ -492,7 +565,7 @@ function App() {
     $("select.delivery-date").bind("change", this.deliveryDateChanged);
     $("select.delivery-payment").bind("change", this.deliveryPaymentChanged);
 
-    $("[type=submit].product-remove").bind("click", this.productRemove);
+    $(".product-remove").bind("click", this.productRemove);
 
     $("form.delivery-form").bind("submit", this.placeOrder);
 

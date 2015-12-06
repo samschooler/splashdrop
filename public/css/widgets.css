@@ -73,6 +73,11 @@ h1, h2, h3, h4 {
 	        box-shadow: 0 10px 30px -8px black;
 }
 
+.error {
+    background-color: #FFD2D6 !important;
+    border: 1px solid red !important;
+}
+
 
 
 

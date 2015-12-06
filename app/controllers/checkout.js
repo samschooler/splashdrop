@@ -1,4 +1,4 @@
-var config = require("../../config/config");
+var config = require("config");
 var mongoose = require("mongoose");
 var Order = mongoose.model('Order');
 
@@ -55,8 +55,13 @@ exports.shop = function (req, res) {
   });
 };
 
-exports.changeOrder = function (req, res) {
-  console.log("Welcome to change order! What do you want to do?");
+exports.orderAction = function (req, res) {
+  if(typeof req.body["product-remove"] !== 'undefined') {
+    req.body.action = "product-remove";
+    req.body.itemId = req.body["product-remove"];
+  }
+  
+  console.log("Welcome to the order action interface! What do you want to do?");
   console.log("> "+req.body.action);
   switch(req.body.action) {
     case "product-add":
@@ -65,8 +70,28 @@ exports.changeOrder = function (req, res) {
     case "product-remove":
       console.log("Awesome! Lets remove that product!");
       return removeProduct(req, res);
+    case "checkout":
+      console.log("Lets get you checked out!");
+      return submitOrder(req, res);
     default: return res.send();
   }
+};
+
+exports.getOrderToken = function (req, res) {
+  config.gateway.clientToken.generate({}, function (err, response) {
+     res.send(response.clientToken);
+   });
+};
+
+exports.order = function (req, res) {
+  if(!req.session.order) {
+    req.session.order = blankOrder;
+  }
+  res.render('checkout/order', {
+    title: 'RollerBakers',
+    order: req.session.order,
+    csrfToken: req.csrfToken()
+  });
 };
 
 var addProduct = function (req, res) {
@@ -147,24 +172,7 @@ var removeProduct = function (req, res) {
   res.redirect('/order');
 };
 
-exports.getOrderToken = function (req, res) {
-  config.gateway.clientToken.generate({}, function (err, response) {
-     res.send(response.clientToken);
-   });
-};
-
-exports.order = function (req, res) {
-  if(!req.session.order) {
-    req.session.order = blankOrder;
-  }
-  res.render('checkout/order', {
-    title: 'RollerBakers',
-    order: req.session.order,
-    csrfToken: req.csrfToken()
-  });
-};
-
-exports.submitOrder = function (req, res) {
+var submitOrder = function (req, res) {
   var cData = {
     name: req.body.name,
     phone: req.body.phone,
