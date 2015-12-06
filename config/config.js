@@ -10,9 +10,11 @@ var extend = require('util')._extend;
 var test = require('./env/test');
 var production = require('./env/production');
 var development = null;
+var dev = null;
 try {
   fs.statSync('config/env/development.js');
   development = require('./env/development');
+  dev = extend(development, defaults);
 }
 catch (e) {}
 
@@ -27,7 +29,7 @@ var defaults = {
 console.log(process.env.NODE_ENV);
 
 module.exports = {
-  development: extend(development, defaults) || null,
+  development: dev,
   test: extend(test, defaults),
   production: extend(production, defaults)
 }[process.env.NODE_ENV || "production"];
