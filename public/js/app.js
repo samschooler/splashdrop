@@ -20,6 +20,8 @@ function App() {
   var btClient;
 
   this.isFormValid = function(form, d) {
+    form.find('.error').removeClass('error');
+    
     var isValid = true;
     function isItemValid(element, value, isCustomValid, canBeEmpty) {
       if( !canBeEmpty && (value === "" || value === null) ||
@@ -55,6 +57,7 @@ function App() {
         default: return false;
       }
     });
+
     if(form.find('[name=delivery-type]').val() == "later" &&
       isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
         var date = new Date();
@@ -71,16 +74,25 @@ function App() {
         }
         return false;
       })) {
-        isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
-          switch (value) {
-            case "8-9": return true;
-            case "9-10": return true;
-            case "10-11": return true;
-            case "11-12": return true;
-            default: return false;
-          }
-        });
-      }
+      isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
+        switch (value) {
+          case "8-9": return true;
+          case "9-10": return true;
+          case "10-11": return true;
+          case "11-12": return true;
+          default: return false;
+        }
+      });
+    }
+
+    if(form.find('[name=payment-type]').val() == "credit-card") {
+      isItemValid('input[data-braintree-name=cardholder_name]', form.find('input[data-braintree-name=cardholder_name]').val());
+      isItemValid('input[data-braintree-name=number]', form.find('input[data-braintree-name=number]').val());
+      isItemValid('input[data-braintree-name=expiration_date]', form.find('input[data-braintree-name=expiration_date]').val());
+      isItemValid('input[data-braintree-name=cvv]', form.find('input[data-braintree-name=cvv]').val());
+    }
+
+
 
     return isValid;
   };
