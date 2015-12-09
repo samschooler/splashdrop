@@ -1,23 +1,15 @@
-Date.prototype.isSameDateAs = function(pDate) {
-  return (
-    this.getFullYear() === pDate.getFullYear() &&
-    this.getMonth() === pDate.getMonth() &&
-    this.getDate() === pDate.getDate()
-  );
-};
-
-jQuery.fn.visible = function() {
-    return this.css('visibility', 'visible');
-};
-
-jQuery.fn.invisible = function() {
-    return this.css('visibility', 'hidden');
-};
+var $ = require('jquery');
+        require('jquery-ui');
+        require('./lib/jquery.sticky-kit.js');
+        require('./lib/jquery.selectBoxIt.js');
+        require('./lib/proto.util.js');
 
 function App() {
   var self = this;
   var dateToday = new Date();
   var btClient;
+
+  this.validation = require('./validation');
 
   this.isFormValid = function(form, d) {
     form.find('.error').removeClass('error');
@@ -87,12 +79,10 @@ function App() {
 
     if(form.find('[name=payment-type]').val() == "credit-card") {
       isItemValid('input[data-braintree-name=cardholder_name]', form.find('input[data-braintree-name=cardholder_name]').val());
-      isItemValid('input[data-braintree-name=number]', form.find('input[data-braintree-name=number]').val());
-      isItemValid('input[data-braintree-name=expiration_date]', form.find('input[data-braintree-name=expiration_date]').val());
-      isItemValid('input[data-braintree-name=cvv]', form.find('input[data-braintree-name=cvv]').val());
+      isItemValid('input[data-braintree-name=number]', form.find('input[data-braintree-name=number]').val(), this.validation.isCreditCardValid);
+      isItemValid('input[data-braintree-name=expiration_date]', form.find('input[data-braintree-name=expiration_date]').val(), this.validation.isExpirationDateValid);
+      isItemValid('input[data-braintree-name=cvv]', form.find('input[data-braintree-name=cvv]').val(), this.validation.isCVVValid);
     }
-
-
 
     return isValid;
   };
@@ -142,7 +132,6 @@ function App() {
   };
 
   this.quantityChanged = function(e, ev) {
-    console.log("hey");
     var items, quant;
     var isMultiple = ev === undefined;
 
@@ -155,10 +144,6 @@ function App() {
     items.each(function() {
       var ctx = $( this );
       var key = ctx.find("input[name=itemId]").val();
-
-      if(isMultiple) {
-        ctx.find("input[name=quantity]").val(cQ[key] || ctx.find("input[name=quantity]").val() || 6);
-      }
 
       var quant = ctx.find('input[name=quantity]').val();
 
@@ -572,6 +557,13 @@ function App() {
     $("[type=submit].product-add").bind("click", this.productAdd);
     $("[type=submit].product-remove").bind("click", this.productRemove);
 
+    $('.product-form').each(function() {
+      var ctx = $( this );
+      var key = ctx.find("input[name=itemId]").val();
+
+      ctx.find("input[name=quantity]").val(cQ[key] || ctx.find("input[name=quantity]").val() || 6);
+    });
+    
     this.quantityChanged();
   };
 
@@ -609,7 +601,6 @@ function App() {
     }
   };
 }
-
 
 $(function() {
   var app = new App();

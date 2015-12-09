@@ -1,5 +1,6 @@
 var config = require("../../config/config");
 var mongoose = require("mongoose");
+var valid = require('card-validator');
 var Order = mongoose.model('Order');
 
 var blankOrder = {
@@ -7,6 +8,76 @@ var blankOrder = {
   quantity: 0,
   price: 0
 };
+
+function isFormValid(d) {
+  var isValid = true;
+  function isItemValid(value, isCustomValid, canBeEmpty) {
+    if( !canBeEmpty && (value === "" || value === null) ||
+        typeof isCustomValid !== 'undefined' && isCustomValid !== null && !isCustomValid(value, form) )
+    {
+      isValid = false;
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isItemValid(d.name);
+  isItemValid(d.phone, function(value) {
+    return true;
+  });
+  isItemValid(d.email, function(value) {
+    return true;
+  });
+
+  isItemValid(d.address);
+  // suite is optional
+  isItemValid(d.city);
+  isItemValid(d.state);
+  isItemValid(d.zip);
+
+  isItemValid(d.delivery_type, function(value) {
+    switch (value) {
+      case "now": return true;
+      case "later": return true;
+      default: return false;
+    }
+  });
+
+  if(d.delivery_type == "later" &&
+    isItemValid(d.delivery_date, function(value) {
+      var date = new Date();
+      for (var i = 0; i < 3; i++) {
+        while((date.getDay() == 6) || (date.getDay() === 0)) {
+          date.setDate(date.getDate() + 1);
+        }
+        if($.datepicker.formatDate("m-d-yy", date) == value) {
+          return true;
+        }
+
+        date.setDate(date.getDate() + 1);
+      }
+      return false;
+    })) {
+    isItemValid(d.delivery_time, function(value) {
+      switch (value) {
+        case "8-9": return true;
+        case "9-10": return true;
+        case "10-11": return true;
+        case "11-12": return true;
+        default: return false;
+      }
+    });
+  }
+
+  if(d.payment_type == "credit-card") {
+
+  }
+
+
+
+  return isValid;
+}
 
 function calcPrice(qt) {
   if(!parseInt(qt)) return 0;
@@ -194,7 +265,7 @@ var submitOrder = function (req, res) {
     delivery_type: req.body.delivery_type,
     delivery_date: req.body.delivery_date,
 
-    payment_type: (req.body.payment_method_nonce ? "credit-card" : "cash" ),
+    payment_type: req.body.payment_type,
     payment_nonce: req.body.payment_method_nonce || ""
   };
 
