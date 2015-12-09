@@ -55,6 +55,34 @@ exports.shop = function (req, res) {
   });
 };
 
+exports.orderAction = function (req, res) {
+  if(typeof req.body["product-remove"] !== 'undefined') {
+    req.body.action = "product-remove";
+    req.body.itemId = req.body["product-remove"];
+  }
+
+  if(typeof req.params.itemId !== 'undefined' && req.path.indexOf('removeProduct/') > -1) {
+    req.body.itemId = req.params.itemId;
+  }
+
+  console.log(req.params.itemId +" "+req.body.itemId);
+
+  console.log("Welcome to the order action interface! What do you want to do?");
+  console.log("> "+req.body.action);
+  switch(req.body.action) {
+    case "product-add":
+      console.log("Cool! lets add a product!");
+      return addProduct(req, res);
+    case "product-remove":
+      console.log("Awesome! Lets remove that product!");
+      return removeProduct(req, res);
+    case "checkout":
+      console.log("Lets get you checked out!");
+      return submitOrder(req, res);
+    default: return res.send();
+  }
+};
+
 exports.getOrderToken = function (req, res) {
   config.gateway.clientToken.generate({}, function (err, response) {
      res.send(response.clientToken);
@@ -72,31 +100,12 @@ exports.order = function (req, res) {
   });
 };
 
-exports.orderAction = function (req, res) {
-  if(typeof req.body["product-remove"] !== 'undefined') {
-    req.body.action = "product-remove";
-    req.body.itemId = req.body["product-remove"];
-  }
-
-  if(typeof req.params.itemId !== 'undefined' && req.path.indexOf('removeProduct/') > -1) {
-    req.body.itemId = req.params.itemId;
-  }
-
-  switch(req.body.action) {
-    case "product-add":
-      return addProduct(req, res);
-    case "product-remove":
-      return removeProduct(req, res);
-    case "checkout":
-      return submitOrder(req, res);
-    default: return res.send();
-  }
-};
-
 var addProduct = function (req, res) {
   if(!req.session.order) {
     req.session.order = blankOrder;
   }
+
+  console.log(JSON.stringify(req.body));
 
   var newItem = {
     id: parseInt(req.body.itemId),
@@ -189,8 +198,6 @@ var submitOrder = function (req, res) {
     payment_nonce: req.body.payment_method_nonce || ""
   };
 
-  console.log(JSON.stringify(cData));
-
   // DO FUCKING VALIDATION
 
   var order = new Order(cData);
@@ -198,7 +205,7 @@ var submitOrder = function (req, res) {
     if (err) {
       console.log(JSON.stringify(err));
     }
-    console.log("order saved");
+    console.log('meow');
   });
 
   config.gateway.transaction.sale({

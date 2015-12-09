@@ -21,7 +21,7 @@ function App() {
 
   this.isFormValid = function(form, d) {
     form.find('.error').removeClass('error');
-
+    
     var isValid = true;
     function isItemValid(element, value, isCustomValid, canBeEmpty) {
       if( !canBeEmpty && (value === "" || value === null) ||
@@ -495,7 +495,7 @@ function App() {
 
       var dataString =
         "action=checkout" +
-        "&name="+cData.name+
+        "name="+cData.name+
         "&phone="+cData.phone+
         "&email="+cData.email+
 
