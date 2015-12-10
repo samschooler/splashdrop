@@ -86,6 +86,7 @@
           spacer.css({
             width: elm.outerWidth(true),
             height: height,
+            zIndex: -1,
             display: elm.css("display"),
             "vertical-align": elm.css("vertical-align"),
             "float": el_float

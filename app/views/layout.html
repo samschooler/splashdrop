@@ -5,17 +5,19 @@
     {% block head %}{% endblock head %}
   </head>
   <body>
-    <header class="header">
-      <div class="header-bar content">
-        <div class="logo left"><a href="/">ROLLERBAKERS</a></div>
-          {% block header-left %}{% endblock header-left %}
-        <div class="right">
-          {% block header-right %}{% endblock header-right %}
+    <div class="wrapper">
+      <header class="header">
+        <div class="header-bar content">
+          <div class="logo left"><a href="/">ROLLERBAKERS</a></div>
+            {% block header-left %}{% endblock header-left %}
+          <div class="right">
+            {% block header-right %}{% endblock header-right %}
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="clear"></div>
-      </div>
-    </header>
-    {% block body %}{% endblock body %}
-    {% include "./includes/footer.html" %}
+      </header>
+      {% block body %}{% endblock body %}
+      {% include "./includes/footer.html" %}
+    </div>
   </body>
 </html>

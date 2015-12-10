@@ -13,7 +13,7 @@ function App() {
 
   this.isFormValid = function(form, d) {
     form.find('.error').removeClass('error');
-    
+
     var isValid = true;
     function isItemValid(element, value, isCustomValid, canBeEmpty) {
       if( !canBeEmpty && (value === "" || value === null) ||
@@ -563,7 +563,7 @@ function App() {
 
       ctx.find("input[name=quantity]").val(cQ[key] || ctx.find("input[name=quantity]").val() || 6);
     });
-    
+
     this.quantityChanged();
   };
 

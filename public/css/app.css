@@ -8,6 +8,28 @@
   border: 1px solid #eee;
 }
 
+.wrapper {
+  position: relative;
+  padding-top: 60px;
+}
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 0 1200px; }
+}
+
+.header:before {
+  content : "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url(/img/loop.png);
+  width: 100%;
+  height: 100%;
+  opacity : 0.06;
+  animation: animatedBackground 120s linear infinite;
+}
+
 .nav {
   background-color: #D1EBFF;
   padding: 10px;
