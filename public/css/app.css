@@ -26,7 +26,7 @@
   background-image: url(/img/loop.png);
   width: 100%;
   height: 100%;
-  opacity : 0.06;
+  opacity : 0.1;
   animation: animatedBackground 120s linear infinite;
 }
 
