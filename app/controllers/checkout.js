@@ -22,7 +22,7 @@ function isFormValid(d) {
     }
   }
 
-  isItemValid(d.first_name);
+  isItemValid(d.name);
   isItemValid(d.last_name);
   isItemValid(d.phone, function(value) {
     return true;
@@ -252,7 +252,7 @@ var removeProduct = function (req, res) {
 
 var submitOrder = function (req, res) {
   var cData = {
-    first_name: req.body.first_name,
+    name: req.body.first_name,
     last_name: req.body.last_name,
     phone: req.body.phone,
     email: req.body.email,
@@ -271,7 +271,13 @@ var submitOrder = function (req, res) {
     payment_nonce: req.body.payment_method_nonce || ""
   };
 
-  // DO FUCKING VALIDATION
+  var error = !self.isFormValid(form, cData);
+
+  if(error) {
+    console.log("error!");
+    res.status(401)
+    res.send();
+  }
 
   var order = new Order(cData);
   order.save(function (err) {

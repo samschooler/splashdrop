@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
  */
 
 var UserSchema = new Schema({
-  first_name: { type: String, default: '' },
+  name: { type: String, default: '' },
   last_name: { type: String, default: '' },
   phone: { type: Number, default: '' },
   email: { type: String, default: '' },
