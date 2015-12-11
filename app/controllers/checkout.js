@@ -22,7 +22,8 @@ function isFormValid(d) {
     }
   }
 
-  isItemValid(d.name);
+  isItemValid(d.first_name);
+  isItemValid(d.last_name);
   isItemValid(d.phone, function(value) {
     return true;
   });
@@ -251,7 +252,8 @@ var removeProduct = function (req, res) {
 
 var submitOrder = function (req, res) {
   var cData = {
-    name: req.body.name,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     phone: req.body.phone,
     email: req.body.email,
 

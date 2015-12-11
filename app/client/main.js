@@ -28,7 +28,8 @@ function App() {
       }
     }
 
-    isItemValid('[name=customer-name]', d.name);
+    isItemValid('[name=customer-first-name]', d.first_name);
+    isItemValid('[name=customer-last-name]', d.last_name);
     isItemValid('[name=customer-phone]', d.phone, function(value) {
       return true;
     });
@@ -50,7 +51,7 @@ function App() {
       }
     });
 
-    if(form.find('[name=delivery-type]').val() == "later" &&
+    if(form.find('select[name=delivery-type]').val() == "later" &&
       isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
         var date = new Date();
         for (var i = 0; i < 3; i++) {
@@ -445,7 +446,8 @@ function App() {
     form.find('.fa-refresh-div').removeClass('hide');
 
     var cData = {
-      name: form.find('[name=customer-name]').val(),
+      first_name: form.find('[name=customer-first-name]').val(),
+      last_name: form.find('[name=customer-last-name]').val(),
       phone: form.find('[name=customer-phone]').val(),
       email: form.find('[name=customer-email]').val(),
 
@@ -456,9 +458,9 @@ function App() {
       zip: form.find('[name=delivery-zip]').val(),
       notes: form.find('[name=delivery-notes-js]').val(),
 
-      delivery_type: form.find('[name=delivery-type]').val() || "",
-      delivery_date: form.find('[name=delivery-date]').val() || "",
-      delivery_time: form.find('[name=delivery-time]').val() || ""
+      delivery_type: form.find('select[name=delivery-type]').val() || "",
+      delivery_date: form.find('select[name=delivery-date]').val() || "",
+      delivery_time: form.find('select[name=delivery-time]').val() || ""
     };
 
     var error = !self.isFormValid(form, cData);
@@ -480,7 +482,8 @@ function App() {
 
       var dataString =
         "action=checkout" +
-        "name="+cData.name+
+        "first_name="+cData.first_name+
+        "last_name="+cData.last_name+
         "&phone="+cData.phone+
         "&email="+cData.email+
 
