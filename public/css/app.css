@@ -26,7 +26,7 @@
   background-image: url(/img/loop.png);
   width: 100%;
   height: 100%;
-  opacity : 0.1;
+  opacity : 0.23;
   animation: animatedBackground 120s linear infinite;
 }
 
@@ -275,8 +275,10 @@
   padding-left: 0px;
 }
 
-.order-info input,
-.order-info textarea {
+.order-info input[type=text],
+.order-info textarea,
+.address-checker-holder input[type=text],
+.promo-email-holder input[type=text] {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
@@ -284,6 +286,63 @@
   border: 1px solid #ccc;
   resize: none;
   font-size: 16px;
+}
+
+.address-checker-error {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #FFE2E2;
+  border: 1px solid #EF3232;
+  color: #EF3232;
+  max-width: 300px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.address-checker-holder {
+  max-width: 600px;
+  margin: 60px auto 130px;
+  text-align: center;
+}
+.address-checker-holder .address-checker-zip input[type=text] {
+  max-width: 130px;
+  margin: 0 auto;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+.promo-email-error {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #FFE2E2;
+  border: 1px solid #EF3232;
+  color: #EF3232;
+  max-width: 300px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.promo-email-holder {
+  max-width: 600px;
+  margin: 60px auto 130px;
+  text-align: center;
+}
+.promo-email-holder .promo-email input[type=text] {
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 20px;
+  text-align: center;
+}
+
+.sidecheck-left-input {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.sidecheck-right-btn {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @media (max-width:460px) {
@@ -321,17 +380,11 @@
   width: 100%;
 }
 
-.order-product-quantity {
-  text-align: right;
-  width:1%;
-  white-space:nowrap;
-}
-
-.order-product-price .fa-times, .order-product-price .fa-refresh {
+.order-product-rm .fa-times, .order-product-rm .fa-refresh {
   color: #ccc;
 }
 
-.order-product-price .fa-refresh {
+.order-product-rm .fa-refresh {
   font-size: 15px;
 }
 
@@ -345,9 +398,13 @@ button.product-remove {
   cursor: pointer;
 }
 
-.order-product-name {
+.order-products {
+  font-family: monospace;
+  font-size: 1.2em;
 }
-.order-product-price {
+.order-product-quantity, .order-product-rm, .order-product-price {
+  width:1%;
+  white-space:nowrap;
   text-align: right;
 }
 
@@ -356,6 +413,7 @@ button.product-remove {
   font-weight: 600;
   text-align: right;
   font-size: 20px;
+  font-family: monospace;
 }
 .total-text .total-price {
   font-size: 28px;
@@ -458,6 +516,18 @@ button.product-remove {
   width: 100px;
   height: 100px;
   background-image: url('/img/cookie_ico.png');
+  opacity: 0.5;
+}
+.scookie-icon {
+  width: 100px;
+  height: 100px;
+  background-image: url('/img/scookie.png');
+  opacity: 0.5;
+}
+.lcookie-icon {
+  width: 100px;
+  height: 100px;
+  background-image: url('/img/lcookie.png');
   opacity: 0.5;
 }
 

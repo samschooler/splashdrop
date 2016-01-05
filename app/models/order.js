@@ -7,24 +7,26 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var OrderSchema = new Schema({
-  name: { type: String, default: '' },
-  phone: { type: Number, default: '' },
-  email: { type: String, default: '' },
+  name: String,
+  last_name: String,
+  phone: Number,
+  email: String,
 
-  address: { type: String, default: '' },
-  suite: { type: String, default: '' },
-  city: { type: String, default: '' },
-  state: { type: String, default: '' },
-  zip: { type: Number, default: '' },
-  notes: { type: String, default: '' },
+  address: String,
+  suite: String,
+  city: String,
+  state: String,
+  zip: Number,
+  notes: String,
 
-  payment_type: { type: String, default: '' },
-  payment_nonce: { type: String, default: '' },
+  payment_type: String,
+  payment_nonce: String,
 
-  delivery_type: { type: String, default: '' },
-  delivery_date: { type: Date, default: '' },
-  delivery_items: { type: Object, default: {} },
-  delivery_total: { type: Number, default: 0.00 },
+  delivery_type: String,
+  delivery_date: Date,
+  delivery_products: Object,
+  delivery_fee: Number,
+  delivery_price: Number,
 });
 
 mongoose.model('Order', OrderSchema);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>RollerBakers Order</title>
+        <style type="text/css">        body {margin: 0; padding: 0; min-width: 100%!important;}
+        </style>
+    </head>
+    <body>
+        <table width="100%" border="0" cellpadding="0" cellspacing="10">
+            <tbody>
+                <tr>
+                    <td>
+                        <table style="width:100%;" cellpadding="3" cellspacing="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><h2 style="margin: 0px 0px 0px 0px;">New Order:</h2></td>
+                                    <td><h2 style="color:#6cc0e5;font-weight:bold;margin:0;" align="right">'+cData.payment_type+'</h2></td>
+                                 </tr>
+                                <tr>
+                                    <td><h2 style="color:#fbc93d;font-weight:normal;margin:0;text-transform:uppercase;">'+cData.delivery_date+'</h2></td>
+                                 </tr>
+                                <tr>
+                                    <td><h2 style="color:#fb4f4f;font-weight:bold;margin:0;">'+cData.delivery_time+'</h2></td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    	<h4 style="margin: 10px 0px 5px 0px;">Orderer Info</h4>
+                        <table style="width:100%;"  cellpadding="3" cellspacing="0" border="1">
+                            <tbody>
+                                <tr><td>Name: </td><td>'+cData.name+'  '+cData.last_name+'</td></tr>
+                                <tr><td>Phone: </td><td>'+cData.phone+'</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td>
+                       <h4 style="margin:10px 0px 5px 0px;">Delivery Info</h4>
+                        <table style="width:100%;" cellpadding="3" cellspacing="0" border="1">
+                            <tbody>
+                                <tr><td>Address: </td><td>'+cData.address+'</td></tr>
+                                <tr><td>Suite: </td><td>'+cData.suite+'</td></tr>
+                                <tr><td>Zip: </td><td>'+cData.zip+'</td></tr>
+                                <tr><td>Notes: </td><td>'+cData.notes+'</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td>
+                       <h4 style="margin:10px 0px 5px 0px;">Order</h4>
+                        <table style="width:100%;" cellpadding="3" cellspacing="0" border="1">
+                            <tbody>
+                                <tr><th>Product</th><th>Qty.</th><th>Price</th></tr>
+                                <tr><td>Chocolate Chip Cookie</td><td>4</td><td>$4.00</td></tr>
+
+                                <tr><td></td><td></td><td></td></tr>
+                                <tr><td><b>Delivery</b></td><td></td><td>$'+cData.delivery_fee+'</td></tr>
+                                <tr><td><b>Total</b></td><td>'+cData.delivery_total_quantity+'</td><td><b>$'+cData.delivery_price+'</b></td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                 </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

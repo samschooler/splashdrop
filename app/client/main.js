@@ -1,92 +1,10 @@
 var $ = require('jquery');
         require('jquery-ui');
-        require('./lib/jquery.sticky-kit.js');
-        require('./lib/jquery.selectBoxIt.js');
         require('./lib/proto.util.js');
+var order = require('./order');
 
 function App() {
   var self = this;
-  var dateToday = new Date();
-  var btClient;
-
-  this.validation = require('./validation');
-
-  this.isFormValid = function(form, d) {
-    form.find('.error').removeClass('error');
-
-    var isValid = true;
-    function isItemValid(element, value, isCustomValid, canBeEmpty) {
-      if( !canBeEmpty && (value === "" || value === null) ||
-          typeof isCustomValid !== 'undefined' && isCustomValid !== null && !isCustomValid(value, form) )
-      {
-        isValid = false;
-        form.find(element).addClass("error");
-        return false;
-      } else {
-        form.find(element).removeClass("error");
-        return true;
-      }
-    }
-
-    isItemValid('[name=customer-first-name]', d.first_name);
-    isItemValid('[name=customer-last-name]', d.last_name);
-    isItemValid('[name=customer-phone]', d.phone, function(value) {
-      return true;
-    });
-    isItemValid('[name=customer-email]', d.email, function(value) {
-      return true;
-    });
-
-    isItemValid('[name=delivery-address]', d.address);
-    // suite is optional
-    isItemValid('[name=delivery-city]', d.city);
-    isItemValid('[name=delivery-state]', d.state);
-    isItemValid('[name=delivery-zip]', d.zip);
-
-    isItemValid('[name=delivery-type]', d.delivery_type, function(value) {
-      switch (value) {
-        case "now": return true;
-        case "later": return true;
-        default: return false;
-      }
-    });
-
-    if(form.find('select[name=delivery-type]').val() == "later" &&
-      isItemValid('[name=delivery-date]', d.delivery_date, function(value) {
-        var date = new Date();
-        for (var i = 0; i < 3; i++) {
-          while((date.getDay() == 6) || (date.getDay() === 0)) {
-            date.setDate(date.getDate() + 1);
-          }
-          console.log($.datepicker.formatDate("m-d-yy", date) + " " + value);
-          if($.datepicker.formatDate("m-d-yy", date) == value) {
-            return true;
-          }
-
-          date.setDate(date.getDate() + 1);
-        }
-        return false;
-      })) {
-      isItemValid('[name=delivery-time]', d.delivery_time, function(value) {
-        switch (value) {
-          case "8-9": return true;
-          case "9-10": return true;
-          case "10-11": return true;
-          case "11-12": return true;
-          default: return false;
-        }
-      });
-    }
-
-    if(form.find('[name=payment-type]').val() == "credit-card") {
-      isItemValid('input[data-braintree-name=cardholder_name]', form.find('input[data-braintree-name=cardholder_name]').val());
-      isItemValid('input[data-braintree-name=number]', form.find('input[data-braintree-name=number]').val(), this.validation.isCreditCardValid);
-      isItemValid('input[data-braintree-name=expiration_date]', form.find('input[data-braintree-name=expiration_date]').val(), this.validation.isExpirationDateValid);
-      isItemValid('input[data-braintree-name=cvv]', form.find('input[data-braintree-name=cvv]').val(), this.validation.isCVVValid);
-    }
-
-    return isValid;
-  };
 
   this.calcQuantity = function() {
     var keys = Object.keys(cQ);
@@ -101,6 +19,41 @@ function App() {
     if(!parseInt(qt)) return 0;
     switch(parseInt(qt)) {
       case 0:  return 0;
+      case 1:  return 2;
+      case 2:  return 2.5;
+      case 3:  return 3;
+      case 4:  return 4;
+      case 5:  return 5;
+      case 6:  return 6;
+
+      case 7:  return 7;
+      case 8:  return 8;
+      case 9:  return 9;
+      case 10: return 10;
+      case 11: return 11;
+      case 12: return 12;
+
+      case 13: return 13;
+      case 14: return 14;
+      case 15: return 15;
+      case 16: return 16;
+      case 17: return 17;
+      case 18: return 18;
+
+      case 19: return 19;
+      case 20: return 20;
+      case 21: return 21;
+      case 22: return 22;
+      case 23: return 23;
+      case 24: return 24;
+      default: return 0;
+    }
+  };
+
+  /*this.calcPrice = function(qt) {
+    if(!parseInt(qt)) return 0;
+    switch(parseInt(qt)) {
+      case 0:  return 0; // ~ 2
       case 1:  return 3;
       case 2:  return 4;
       case 3:  return 5;
@@ -108,21 +61,21 @@ function App() {
       case 5:  return 7;
       case 6:  return 8;
 
-      case 7:  return 10;
+      case 7:  return 10; // ~ 3
       case 8:  return 11;
       case 9:  return 12;
       case 10: return 13;
       case 11: return 14;
       case 12: return 15;
 
-      case 13: return 17;
+      case 13: return 17; // ~ 3.50
       case 14: return 18;
       case 15: return 19;
       case 16: return 20;
       case 17: return 21;
       case 18: return 22;
 
-      case 19: return 24;
+      case 19: return 24; // ~ 4
       case 20: return 25;
       case 21: return 26;
       case 22: return 27;
@@ -130,7 +83,7 @@ function App() {
       case 24: return 29;
       default: return 0;
     }
-  };
+  };*/
 
   this.quantityChanged = function(e, ev) {
     var items, quant;
@@ -262,14 +215,14 @@ function App() {
     ctx.find(".quant-btn").prop("disabled",true);
 
     if(cQ[parseInt(ctx.find("input[name=itemId]").val())] == quantity) {
-      window.location = '/order';
+      window.location = '/order/info';
     }
 
     // submit form
-    var dataString = "action=product-add&itemId="+itemId+"&quantity="+quantity+"&_csrf="+ $("input[name=_csrf]").val();
+    var dataString = "itemId="+itemId+"&quantity="+quantity+"&_csrf="+ $("input[name=_csrf]").val();
     $.ajax({
       type: "POST",
-      url: ctx.attr('action'),
+      url: '/order/api/addProduct',
       data: dataString,
       cache: false,
       success: function(result){
@@ -299,10 +252,10 @@ function App() {
     $('.confirm-order').prop("disabled", true);
 
     // submit form
-    var dataString = "action=product-remove&itemId="+itemId+"&_csrf="+ $("input[name=_csrf]").val();
+    var dataString = "itemId="+itemId+"&_csrf="+ $("input[name=_csrf]").val();
     $.ajax({
       type: "POST",
-      url: ctx.attr('action'),
+      url: '/order/api/removeProduct',
       data: dataString,
       cache: false,
       success: function(result){
@@ -333,216 +286,6 @@ function App() {
     });
   };
 
-  this.populateSelectData = function(data, arr) {
-    for(var i = 0; i < arr.length; i++) {
-      data.add(arr[i]);
-    }
-  };
-
-  this.populateDeliveryDates = function() {
-    function dateString(date) {
-      return {text: $.datepicker.formatDate("DD M d", date), value: $.datepicker.formatDate("m-d-yy", date)};
-    }
-
-    var date = new Date(dateToday);
-    var dateStrings = [];
-    while((date.getDay() == 6) || (date.getDay() === 0)) {
-      date.setDate(date.getDate() + 1);
-    }
-
-    if(!dateToday.isSameDateAs(date)) {
-      dateStrings[0] = dateString(date);
-    } else if(date.getHours() < 23) {
-      dateStrings[0] = {text: "Today", value: $.datepicker.formatDate("m-d-yy", date)};
-    }
-
-    do {
-      date.setDate(date.getDate() + 1);
-    } while((date.getDay() == 6) || (date.getDay() === 0));
-    dateStrings[1] = dateString(date);
-
-    do {
-      date.setDate(date.getDate() + 1);
-    } while((date.getDay() == 6) || (date.getDay() === 0));
-    dateStrings[2] = dateString(date);
-
-    return dateStrings;
-  };
-
-  this.populateDeliveryTimes = function(isToday) {
-    var d = new Date(dateToday);
-    var timeStrings = [];
-
-    timeStrings[timeStrings.length] = {text: "Time?", disabled: true};
-
-    if(d.getHours() < 20 || !isToday) {
-      timeStrings[timeStrings.length] = {text: "8PM - 9PM", value: "8-9"};
-    }
-    if(d.getHours() < 21 || !isToday) {
-      timeStrings[timeStrings.length] = {text: "9PM - 10PM", value: "9-10"};
-    }
-    if(d.getHours() < 22 || !isToday) {
-      timeStrings[timeStrings.length] = {text: "10PM - 11PM", value: "10-11"};
-    }
-    if(d.getHours() < 23 || !isToday) {
-      timeStrings[timeStrings.length] = {text: "11PM - 12AM", value: "11-12"};
-    }
-
-    return timeStrings;
-  };
-
-  this.deliveryTypeChanged = function() {
-    if($("select.delivery-type").val() == "later") {
-      $(".delivery-date-holder").show();
-      if($("select.delivery-date").val()) {
-        $(".delivery-time-holder").show();
-      }
-    } else {
-      $(".delivery-date-holder").hide();
-      $(".delivery-time-holder").hide();
-    }
-  };
-
-  this.deliveryDateChanged = function() {
-    $("select.delivery-time").data("selectBox-selectBoxIt").remove();
-    var d = new Date($("select.delivery-date").val());
-    var arr = self.populateDeliveryTimes(d.isSameDateAs(dateToday));
-
-    self.populateSelectData($("select.delivery-time").data("selectBox-selectBoxIt"), arr);
-
-    if($("select.delivery-date").val()) {
-      $(".delivery-time-holder").show();
-      $(document.body).trigger("sticky_kit:recalc");
-    }
-  };
-
-  this.deliveryPaymentChanged = function() {
-    if($("select.delivery-payment").val() == "credit-card") {
-      $(".delivery-payment-form").show();
-    } else {
-      $(".delivery-payment-form").hide();
-    }
-    $(document.body).trigger("sticky_kit:recalc");
-  };
-
-  this.setupGateway = function() {
-    $.ajax({
-      type: "GET",
-      url: '/order/clientToken',
-      cache: false,
-      success: function(token){
-        self.btClient = new braintree.api.Client({clientToken: token});
-      }
-    });
-  };
-
-  this.placeOrder = function(ev) {
-    ev.preventDefault();
-    var form = $(ev.target);
-
-    form.find('input, textarea, button, select').prop('disabled', true);
-
-    form.find('button.confirm-order-btn').addClass('hide');
-    form.find('.fa-refresh-div').removeClass('hide');
-
-    var cData = {
-      first_name: form.find('[name=customer-first-name]').val(),
-      last_name: form.find('[name=customer-last-name]').val(),
-      phone: form.find('[name=customer-phone]').val(),
-      email: form.find('[name=customer-email]').val(),
-
-      address: form.find('[name=delivery-address]').val(),
-      suite: form.find('[name=delivery-suite]').val(),
-      city: form.find('[name=delivery-city]').val(),
-      state: form.find('[name=delivery-state]').val(),
-      zip: form.find('[name=delivery-zip]').val(),
-      notes: form.find('[name=delivery-notes-js]').val(),
-
-      delivery_type: form.find('select[name=delivery-type]').val() || "",
-      delivery_date: form.find('select[name=delivery-date]').val() || "",
-      delivery_time: form.find('select[name=delivery-time]').val() || ""
-    };
-
-    var error = !self.isFormValid(form, cData);
-
-    if(error) {
-      console.log("error!");
-
-      form.find('input, textarea, button, select').prop('disabled', false);
-
-      form.find('button.confirm-order-btn').removeClass('hide');
-      form.find('.fa-refresh-div').addClass('hide');
-
-      return;
-    }
-
-    var continueOrder = function(err, nonce) {
-
-      cData.payment_method_nonce = nonce || "";
-
-      var dataString =
-        "action=checkout" +
-        "first_name="+cData.first_name+
-        "last_name="+cData.last_name+
-        "&phone="+cData.phone+
-        "&email="+cData.email+
-
-        "&address="+cData.address+
-        "&suite="+cData.suite+
-        "&city="+cData.city+
-        "&state="+cData.state+
-        "&zip="+cData.zip+
-        "&note="+cData.notes+
-
-        "&delivery_type="+cData.delivery_type+
-        "&delivery_date="+cData.delivery_date+
-        "&delivery_time="+cData.delivery_time+
-
-        "&payment_method_nonce="+cData.payment_method_nonce+
-
-        "&_csrf="+ form.find("input[name=_csrf]").val();
-
-      $.ajax({
-        type: "POST",
-        url: form.attr('action'),
-        data: dataString,
-        cache: false,
-        success: function(result){
-          window.location = '/order/success';
-        }
-      });
-    };
-
-    // check if they are paying now
-    if(!error && form.find('select[name=payment-type]').val() == 'credit-card') {
-      var cardholder_name = form.find('input[data-braintree-name=cardholder_name]').val();
-      var number = form.find('input[data-braintree-name=number]').val();
-      var expiration_date = form.find('input[data-braintree-name=expiration_date]').val();
-      var cvv = form.find('input[data-braintree-name=cvv]').val();
-
-      // DO FUCKING VALIDATION
-
-      self.btClient.tokenizeCard({
-        number: number,
-        cardholderName: cardholder_name,
-        expirationDate: expiration_date,
-        cvv: cvv
-      }, continueOrder);
-    } else if(!error) {
-      continueOrder(null, null);
-    }
-  };
-
-  this.resize = function() {
-    if($(window).width() < 770) {
-      $(".order-info, .order-recipt").trigger("sticky_kit:detach");
-    } else {
-      $(".order-info, .order-recipt").stick_in_parent({
-        offset_top: 65
-      });
-    }
-  };
-
   this.initShop = function() {
     // input quantity
     $(".quantity-btn").bind("click", this.quantityModify);
@@ -570,37 +313,13 @@ function App() {
     this.quantityChanged();
   };
 
-  this.initOrder = function() {
-    $("select.delivery-type").selectBoxIt();
-    $("select.delivery-date").selectBoxIt({
-      populate: self.populateDeliveryDates
-    });
-    $("select.delivery-time").selectBoxIt();
-
-    $("select.delivery-payment").selectBoxIt();
-
-    $("select.delivery-type").bind("change", this.deliveryTypeChanged);
-    $("select.delivery-date").bind("change", this.deliveryDateChanged);
-    $("select.delivery-payment").bind("change", this.deliveryPaymentChanged);
-
-    $(".product-remove").bind("click", this.productRemove);
-
-    $("form.delivery-form").bind("submit", this.placeOrder);
-
-    $(window).bind("resize", this.resize);
-
-    this.setupGateway();
-    this.deliveryTypeChanged();
-    this.resize();
-  };
-
   this.init = function() {
     $('.js-required').removeClass('js-required');
 
-    if(window.location.pathname == "/shop") {
+    if(window.location.pathname == "/order/shop") {
       this.initShop();
-    } else if(window.location.pathname == "/order") {
-      this.initOrder();
+    } else if(window.location.pathname == "/order/info") {
+      order.init();
     }
   };
 }
