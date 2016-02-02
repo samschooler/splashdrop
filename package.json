@@ -44,5 +44,5 @@
   },
   "bundleDependencies": [],
   "private": true,
-  "main": "updatePhotos.js"
+  "main": "server.js"
 }
