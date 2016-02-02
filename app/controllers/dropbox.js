@@ -20,6 +20,21 @@ var generateCSRFToken = function() {
     .replace("///g, '-').replace(/+/g, '_'");
 };
 
+var _doUser = function(users, photos, i, cb) {
+  console.log("--------- DOING: "+users[i].email + " ---------");
+  deletePhotos(users[i].access_token, function() {
+    uploadPhotos(users[i].access_token, photos, function() {
+      console.log("");
+      i++;
+      if(i < users.length) {
+        _doUser(users, photos, i, cb);
+      } else {
+        if(cb) cb();
+      }
+    });
+  });
+};
+
 var deletePhotos = function(token, cb) {
   request.post('https://api.dropboxapi.com/1/metadata/auto/', {
     headers: { Authorization: 'Bearer ' + token},
@@ -42,7 +57,7 @@ var _deletePhoto = function(token, contents, i, cb) {
     if(err) {
       console.log(err);
     }
-    console.log(body);
+    console.log("--- DELETED: "+contents[i].path);
     i++;
     if(i < contents.length) {
       _deletePhoto(token, contents, i, cb);
@@ -68,7 +83,7 @@ var _uploadPhoto = function(token, photos, i, cb) {
     if(err) {
       console.log(err);
     }
-    console.log(body);
+    console.log("--- UPLOADED: "+i+".jpg");
     i++;
     if(i < photos.length) {
       _uploadPhoto(token, photos, i, cb);
@@ -166,19 +181,17 @@ module.exports = {
       });
     });
   },
-  update_photos: function(req, res) {
-    var serverpath; //file to be save at what path in server
-    var localpath; //path of the file which is to be uploaded
-    if (req.query.error) {
-      return res.send('ERROR ' + req.query.error + ': ' + req.query.error_description);
-    }
-    deletePhotos(req.session.token, function() {
-      Unsplash.page(1, function (err, photos) {
-        if (err) {
-          console.log(JSON.stringify(err));
-        }
-        uploadPhotos(req.session.token, photos);
-      });
+  update_photos: function(cb) {
+    User.find(function (err, users) {
+      if (err) return console.error(err);
+      if(users.length > 0) {
+        Unsplash.page(1, function (err, photos) {
+          if (err) {
+            console.log(JSON.stringify(err));
+          }
+          _doUser(users, photos, 0, cb);
+        });
+      }
     });
   }
 };

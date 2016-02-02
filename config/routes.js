@@ -16,7 +16,6 @@ module.exports = function (app, passport) {
   app .get('/', home.index);
   app .get('/authorize', dropbox.authorize);
   app .get('/success', dropbox.success);
-  app .get('/push_photos', dropbox.update_photos);
 
   /**
    * Error handling
