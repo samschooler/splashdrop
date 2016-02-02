@@ -12,53 +12,10 @@ var Schema = mongoose.Schema;
  */
 
 var UserSchema = new Schema({
-  name: { type: String, default: '' },
-  last_name: { type: String, default: '' },
-  phone: { type: Number, default: '' },
-  email: { type: String, default: '' },
-
-  address: { type: String, default: '' },
-  suite: { type: String, default: '' },
-  city: { type: String, default: '' },
-  state: { type: String, default: '' },
-  zip: { type: Number, default: '' },
-  notes: { type: String, default: '' },
-
-  hashed_password: { type: String, default: '' },
-  salt: { type: String, default: '' }
+  _id: String,
+  name: String,
+  email: String,
+  access_token: String,
 });
-
-/**
- * User plugin
- */
-
-UserSchema.plugin(userPlugin, {});
-
-/**
- * Add your
- * - pre-save hooks
- * - validations
- * - virtuals
- */
-
-/**
- * Methods
- */
-
-UserSchema.method({
-
-});
-
-/**
- * Statics
- */
-
-UserSchema.static({
-
-});
-
-/**
- * Register
- */
 
 mongoose.model('User', UserSchema);

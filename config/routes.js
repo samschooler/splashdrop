@@ -5,9 +5,7 @@
 
 var mongoose = require('mongoose');
 var home = require('../app/controllers/home');
-var checkout = require('../app/controllers/checkout');
-var cart = require('../app/controllers/cart');
-var chimp = require('../app/controllers/chimp');
+var dropbox = require('../app/controllers/dropbox');
 
 /**
  * Expose
@@ -16,24 +14,8 @@ var chimp = require('../app/controllers/chimp');
 module.exports = function (app, passport) {
 
   app .get('/', home.index);
-  app .get('/order', function(req, res) { res.redirect('/order/address'); } );
-  app .get('/order/address', checkout.address);
-  app .get('/order/shop', checkout.shop);
-  app .get('/order/info', checkout.info);
-  app .get('/order/success', checkout.success);
-  app.post('/order/success', chimp.subscribe, checkout.success);
-
-
-  app .post('/order/address', checkout.checkAddress);
-
-  app.post('/order', cart.orderAction);
-  app.post('/order/removeProduct/:itemId', cart.orderAction);
-  app .get('/order/clientToken', checkout.getOrderToken);
-
-  app .get('/order/api', cart.view);
-  app.post('/order/api/addProduct', cart.addProduct);
-  app.post('/order/api/removeProduct', cart.removeProduct);
-  app .get('/order/api/removeProduct/:itemId', cart.removeProduct);
+  app .get('/authorize', dropbox.authorize);
+  app .get('/success', dropbox.success);
 
   /**
    * Error handling
