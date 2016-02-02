@@ -7,6 +7,10 @@ var mongoose = require("mongoose");
 var User = mongoose.model('User');
 var Unsplash = require('./unsplash');
 
+function random (low, high) {
+    return Math.random() * (high - low) + low;
+}
+
 var generateRedirectURI = function(req) {
   return url.format({
     protocol: 'http',
@@ -185,7 +189,7 @@ module.exports = {
     User.find(function (err, users) {
       if (err) return console.error(err);
       if(users.length > 0) {
-        Unsplash.page(1, function (err, photos) {
+        Unsplash.page(random(1, 10), function (err, photos) {
           if (err) {
             console.log(JSON.stringify(err));
           }
