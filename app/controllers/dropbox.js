@@ -5,11 +5,11 @@ var request = require('request');
 var config = require('../../config/config');
 var mongoose = require("mongoose");
 var User = mongoose.model('User');
-var Unsplash = require('node-unsplash');
+var Unsplash = require('./unsplash');
 
 var generateRedirectURI = function(req) {
   return url.format({
-    protocol: 'https',
+    protocol: 'http',
     host: req.headers.host,
     pathname: '/success'
   });
