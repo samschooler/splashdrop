@@ -7,7 +7,7 @@ var User = mongoose.model('User');
 
 var generateRedirectURI = function(req) {
   return url.format({
-    protocol: 'https://',
+    protocol: req.protocol,
     host: req.headers.host,
     pathname: '/success'
   });
