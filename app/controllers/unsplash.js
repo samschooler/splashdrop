@@ -31,7 +31,7 @@ var getImages = function getImages(html) {
 
 module.exports = {
   page: function page(pageNumber, cb) {
-      var url = PREFIX + '/grid?page=' + pageNumber;
+      var url = PREFIX + '/new';
       request.get(url, function (err, response, body) {
           if (err) {
               cb(err, null);

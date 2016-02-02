@@ -7,8 +7,8 @@ var mongoose = require("mongoose");
 var User = mongoose.model('User');
 var Unsplash = require('./unsplash');
 
-function random (low, high) {
-    return Math.random() * (high - low) + low;
+function random (min, max) {
+    return Math.floor(Math.random() * (max - min +1)) + min;
 }
 
 var generateRedirectURI = function(req) {
