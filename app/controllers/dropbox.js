@@ -189,7 +189,9 @@ module.exports = {
     User.find(function (err, users) {
       if (err) return console.error(err);
       if(users.length > 0) {
-        Unsplash.page(random(1, 10), function (err, photos) {
+        var ran = random(1, 10);
+        console.log("--- PAGE: "+ran);
+        Unsplash.page(ran, function (err, photos) {
           if (err) {
             console.log(JSON.stringify(err));
           }
