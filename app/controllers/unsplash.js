@@ -31,7 +31,7 @@ var getImages = function getImages(html) {
 
 module.exports = {
   page: function(cb) {
-      var url = PREFIX + '/new';
+      var url = PREFIX + '/';
       request.get(url, function (err, response, body) {
           if (err) {
               cb(err, null);
