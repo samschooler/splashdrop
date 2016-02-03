@@ -30,7 +30,7 @@ var getImages = function getImages(html) {
 };
 
 module.exports = {
-  page: function page(pageNumber, cb) {
+  page: function(cb) {
       var url = PREFIX + '/new';
       request.get(url, function (err, response, body) {
           if (err) {

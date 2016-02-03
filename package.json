@@ -1,7 +1,7 @@
 {
-  "name": "RollerBakers",
+  "name": "DropSplash",
   "version": "1.0.0",
-  "homepage": "https://www.rollerbakers.com/",
+  "homepage": "https://dropsplash.sam.ink/",
   "repository": {
     "type": "git",
     "url": "https://github.com/openshift/origin-server"
@@ -30,7 +30,6 @@
     "forever": "0.14.2",
     "method-override": "2.3.3",
     "mongoose": "4.0.6",
-    "mongoose-user": "latest",
     "morgan": "1.6.1",
     "passport": "^0.2.2",
     "passport-local": "1.0.0",
