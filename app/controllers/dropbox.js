@@ -54,7 +54,7 @@ var _doUser = function(users, photos, i, cb) {
 
 var deletePhotos = function(token, photos, cb) {
   if(photos.length > 0) {
-    _deletePhoto(token, body.contents, 0, cb);
+    _deletePhoto(token, photos, 0, cb);
   } else {
     if(cb) cb();
   }
