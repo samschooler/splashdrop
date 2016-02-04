@@ -49,7 +49,7 @@ module.exports = {
       var num = 15;
       var _photos = [];
       var at = 0;
-      var url = 'https://source.unsplash.com/random/featured';
+      var url = 'https://source.unsplash.com/featured';
 
       console.log("--- LOADING UNSPLASH...");
       var _random = function(at, cb) {
