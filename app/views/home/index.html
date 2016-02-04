@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>SplashDrop</title>
-    <link rel="stylesheet" href="/css/app.css">
-  </head>
-  <body>
-    <section class="hero">
-      <div class="hero-content">
-        <figure class="drop-img"></figure>
-        <h1 class="hero-title">SplashDrop</h1>
-        <h3 class="hero-subtitle">Get Unsplash photos as your wallpaper. Updated everyday.</h3>
-        <a href="/authorize">Connect Dropbox</a>
-      </div>
-    </section>
-    <section class="slogan-holder">
-
-    </section>
-  </body>
-</html>
+{% extends '../layout.html' %}
+{% block body %}
+<figure class="drop-img"></figure>
+<h1 class="hero-title">SplashDrop</h1>
+<h3 class="hero-subtitle">Get Unsplash photos as your wallpaper. Updated everyday.</h3>
+<a class="db-button" href="/authorize"><i class="dropbox-img"></i> Connect Dropbox</a>
+{% endblock body %}

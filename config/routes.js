@@ -14,9 +14,9 @@ var dropbox = require('../app/controllers/dropbox');
 module.exports = function (app, passport) {
 
   app .get('/', home.index);
+  app .get('/working', home.working);
   app .get('/authorize', dropbox.authorize);
   app .get('/success', dropbox.success);
-  app .get('/push_photos', dropbox.push_photos_user);
 
   /**
    * Error handling

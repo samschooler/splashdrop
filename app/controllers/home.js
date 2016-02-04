@@ -8,3 +8,8 @@ exports.index = function (req, res) {
     title: 'SplashUp'
   });
 };
+exports.working = function (req, res) {
+  res.render('home/working', {
+    title: 'SplashUp | Working...'
+  });
+};

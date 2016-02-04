@@ -15,6 +15,7 @@ var UserSchema = new Schema({
   name: String,
   email: String,
   access_token: String,
+  init_push: Boolean
 });
 
 mongoose.model('User', UserSchema);

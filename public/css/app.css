@@ -6,46 +6,118 @@ html, body {
   min-width: 320px;
   position: relative;
 }
+.drop-img {
+  width: 115px;
+  height: 100px;
+  background: url('/img/drop.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+}
+.cog-img {
+  width: 100px;
+  height: 100px;
+  background: url('/img/cog.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+  animation: spin 4s infinite linear;
+}
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+.dropbox-img {
+  width: 24px;
+  height: 24px;
+  background: url('/img/dropbox.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  vertical-align: bottom;
+}
 
 .hero {
       background: linear-gradient(
-        rgba(160, 146, 204, 0.46),
-        rgba(75, 92, 117, 0.49) ),
-        url('/img/hero.jpg') no-repeat center center;
+        rgba(13, 73, 160, 0.7),
+        rgba(158, 128, 255, 0.7) ),
+      url('/img/hero.jpg') no-repeat center center;
   -webkit-background-size: cover; /* For WebKit*/
   -moz-background-size: cover;    /* Mozilla*/
   -o-background-size: cover;      /* Opera*/
   background-size: cover;         /* Generic*/
   position: relative;
-  min-height: 300px;
+  min-height: 305px;
   transition: min-height 0.3s ease;
-}
-
-@media (min-height: 700px) {
-  .hero {
-    min-height: 600px;
-    transition: min-height 0.3s ease;
-  }
 }
 
 .hero .hero-content {
   color: #fff;
-  padding: 20px 10px 100px;
-  text-shadow: 1px 1px 2px #331f04;
+  padding: 20px 10px 70px;
   max-width: 620px;
   margin: 0 auto;
   text-align: center;
+  transition: padding 0.3s ease;
 }
 
 .hero .hero-title {
   font-weight: 400;
   font-size: 45px;
-  margin: 50px 0 20px;
+  margin: 15px 0 20px;
 }
 
 .hero .hero-subtitle {
   font-weight: 200;
   font-size: 25px;
+}
+
+@media (min-height: 505px) {
+  .hero {
+    min-height: 455px;
+    transition: min-height 0.3s ease;
+  }
+  .hero .hero-content {
+    padding-top: 20px;
+    transition: padding 0.3s ease;
+  }
+}
+@media (min-height: 705px) {
+  .hero {
+    min-height: 655px;
+    transition: min-height 0.3s ease;
+  }
+  .hero .hero-content {
+    padding-top: 120px;
+    transition: padding 0.3s ease;
+  }
+}
+@media (min-height: 1005px) {
+  .hero {
+    min-height: 955px;
+    transition: min-height 0.3s ease;
+  }
+  .hero .hero-content {
+    padding-top: 270px;
+    transition: padding 0.3s ease;
+  }
+}
+
+.db-button {
+  margin: 30px auto 0;
+  display: inline-block;
+  padding: 5px 5px;
+  background-color: #007ee5;
+  border-radius: 3px;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 0 9px 0 rgba(0,0,0,0.5);
+  font-size: 22px;
+}
+.db-button:hover {
+background-color: #006AC1;
 }
 
 h1, h2, h3, h4 {

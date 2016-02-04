@@ -9,7 +9,7 @@ var Unsplash = require('./unsplash');
 
 var generateRedirectURI = function(req) {
   return url.format({
-    protocol: 'https',
+    protocol: 'http',
     host: req.headers.host,
     pathname: '/success'
   });
@@ -187,14 +187,19 @@ module.exports = {
       }
 
       var token = data.access_token;
-      req.session.uid=data.uid;
-      req.session.token=data.access_token;
+      req.session.uid = data.uid;
 
       request.post('https://api.dropbox.com/1/account/info', {
         headers: { Authorization: 'Bearer ' + token }
       }, function (error, response, body) {
         function continueStuff(user) {
-          res.redirect("/push_photos");
+          Unsplash.page(function (err, photos) {
+            if (err) {
+              console.log(JSON.stringify(err));
+            }
+            doUsers([user], photos);
+          });
+          res.redirect("/working");
         }
 
         var info = JSON.parse(body);
@@ -211,7 +216,8 @@ module.exports = {
               _id: info.uid,
               name: info.display_name,
               email: info.email,
-              access_token: token
+              access_token: token,
+              init_push: true
             });
             user.save(function (err) {
               if (err) {
@@ -238,23 +244,6 @@ module.exports = {
           doUsers(users, photos, cb);
         });
       } else if(cb) cb();
-    });
-  },
-  push_photos_user: function(req, res) {
-    User.findById(req.session.uid, function(err, user) {
-      console.log(JSON.stringify(user));
-      if (err) return console.error(err);
-      if(user !== null) {
-        Unsplash.page(function (err, photos) {
-          if (err) {
-            console.log(JSON.stringify(err));
-          }
-          doUsers([user], photos);
-          res.send("Hola");
-        });
-      } else {
-        res.redirect("/");
-      }
     });
   }
 };

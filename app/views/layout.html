@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% include "./includes/head.html" %}
-    {% block head %}{% endblock head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SplashDrop</title>
+    <link rel="stylesheet" href="/css/app.css">
   </head>
   <body>
-    <div class="wrapper">
-      <header class="header">
-        <div class="header-bar content">
-          <div class="logo left"><a href="/">ROLLERBAKERS</a></div>
-            {% block header-left %}{% endblock header-left %}
-          <div class="right">
-            {% block header-right %}{% endblock header-right %}
-          </div>
-          <div class="clear"></div>
-        </div>
-      </header>
-      {% block body %}{% endblock body %}
-      {% include "./includes/footer.html" %}
-    </div>
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCW7-Y6YcKIvMoGk7cZqEPfepzhZXx7BJc&signed_in=true&callback=initMap" async defer></script>-->
+    <section class="hero">
+      <div class="hero-content">
+        {% block body %}{% endblock body %}
+      </div>
+    </section>
   </body>
 </html>
