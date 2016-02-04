@@ -39,10 +39,40 @@ module.exports = {
           }
           if (response.statusCode === 200) {
               var images = getImages(body);
-              cb(null, images);
+              if(cb) cb(null, images);
           } else {
-              cb(reponse, null);
+              if(cb) cb(reponse, null);
           }
       });
+  },
+  randoms: function(cb) {
+      var num = 15;
+      var _photos = [];
+      var at = 0;
+      var url = 'https://source.unsplash.com/random/featured';
+
+      console.log("--- LOADING UNSPLASH...");
+      var _random = function(at, cb) {
+        console.log("--- GETTING PHOTO: "+at);
+        request.get(url, function (err, response, body) {
+            if (err) {
+              if(cb) cb(err, null);
+              return;
+            }
+
+            _photos.push({ src: response.request.href.split("?")[0] });
+
+            if(at < num) {
+              at++;
+              _random(at, cb);
+            } else {
+              if(cb) cb(null, _photos);
+            }
+        });
+      };
+
+      if(num > 0) {
+        _random(0, cb);
+      } else if(cb) cb(null);
   }
 };

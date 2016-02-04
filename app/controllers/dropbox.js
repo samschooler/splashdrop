@@ -193,7 +193,7 @@ module.exports = {
         headers: { Authorization: 'Bearer ' + token }
       }, function (error, response, body) {
         function continueStuff(user) {
-          Unsplash.page(function (err, photos) {
+          Unsplash.randoms(function (err, photos) {
             if (err) {
               console.log(JSON.stringify(err));
             }
@@ -237,7 +237,7 @@ module.exports = {
     User.find(function (err, users) {
       if (err) return console.error(err);
       if(users.length > 0) {
-        Unsplash.page(function (err, photos) {
+        Unsplash.randoms(function (err, photos) {
           if (err) {
             console.log(JSON.stringify(err));
           }
