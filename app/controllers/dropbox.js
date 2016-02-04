@@ -9,7 +9,7 @@ var Unsplash = require('./unsplash');
 
 var generateRedirectURI = function(req) {
   return url.format({
-    protocol: 'http',
+    protocol: 'https',
     host: req.headers.host,
     pathname: '/success'
   });
