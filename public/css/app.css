@@ -42,9 +42,9 @@ html, body {
 
 .hero {
       background: linear-gradient(
-        rgba(13, 73, 160, 0.7),
-        rgba(158, 128, 255, 0.7) ),
-      url('/img/hero.jpg') no-repeat center center;
+        rgba(160, 13, 13, 0.44),
+        rgba(255, 128, 210, 0.48) ),
+        url('https://source.unsplash.com/featured/daily') no-repeat center center;
   -webkit-background-size: cover; /* For WebKit*/
   -moz-background-size: cover;    /* Mozilla*/
   -o-background-size: cover;      /* Opera*/
@@ -123,6 +123,10 @@ background-color: #006AC1;
 h1, h2, h3, h4 {
   margin: 0;
   padding: 0;
+}
+
+.nowrap {
+  white-space:nowrap;
 }
 
 .left {
