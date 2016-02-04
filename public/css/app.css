@@ -7,10 +7,6 @@ html, body {
   position: relative;
 }
 
-@media (min-height) {
-
-}
-
 .hero {
       background: linear-gradient(
         rgba(160, 146, 204, 0.46),
@@ -21,7 +17,15 @@ html, body {
   -o-background-size: cover;      /* Opera*/
   background-size: cover;         /* Generic*/
   position: relative;
-  min-height: 80%;
+  min-height: 300px;
+  transition: min-height 0.3s ease;
+}
+
+@media (min-height: 700px) {
+  .hero {
+    min-height: 600px;
+    transition: min-height 0.3s ease;
+  }
 }
 
 .hero .hero-content {

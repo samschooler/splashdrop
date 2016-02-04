@@ -20,98 +20,127 @@ var generateCSRFToken = function() {
     .replace("///g, '-').replace(/+/g, '_'");
 };
 
-var _doUser = function(users, photos, i, cb) {
-  function next() {
-    console.log("");
-    i++;
-    if(i < users.length) {
-      _doUser(users, photos, i, cb);
-    } else {
-      if(cb) cb();
-    }
-  }
-
-  console.log("--------- DOING: "+users[i].email + " ---------");
-  request.post('https://api.dropboxapi.com/1/metadata/auto/', {
-    headers: { Authorization: 'Bearer ' + users[i].access_token },
-    form: { list:true }
-  }, function optionalCallback (err, httpResponse, body) {
-    body = JSON.parse(body);
-    if(body.error) {
-      console.log("--- ERROR; SKIPPING USER: "+users[i].id);
-      if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
-        console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
-        User.find({ _id: users[i].id }).remove(next);
+var doUsers = function(users, photos, cb) {
+  var itemsLeft = users.length;
+  var _doUser = function(users, photos, i, offset, cb) {
+    function next() {
+      console.log("");
+      itemsLeft--;
+      i += offset;
+      if(i < users.length) {
+        _doUser(users, photos, i, offset, cb);
+      } else if(itemsLeft===0) {
+        if(cb) cb();
       }
-      return;
     }
 
-    deletePhotos(users[i].access_token, body.contents, function() {
-      uploadPhotos(users[i].access_token, photos, next());
+    console.log("--------- DOING: "+users[i].email + " ---------");
+    request.post('https://api.dropboxapi.com/1/metadata/auto/', {
+      headers: { Authorization: 'Bearer ' + users[i].access_token },
+      form: { list:true }
+    }, function optionalCallback (err, httpResponse, body) {
+      body = JSON.parse(body);
+      if(body.error) {
+        console.log("--- ERROR; SKIPPING USER: "+users[i].id);
+        if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
+          console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
+          User.find({ _id: users[i].id }).remove(next);
+        }
+        return;
+      }
+
+      deletePhotos(users[i].access_token, body.contents, function() {
+        uploadPhotos(users[i].access_token, photos, next);
+      });
     });
-  });
+  };
+
+  if(users.length > 0) {
+    _doUser(users, photos, 0, 2, cb);
+    if(users.length > 1) {
+      _doUser(users, photos, 1, 2, cb);
+    }
+  } else {
+    if(cb) cb();
+  }
 };
 
 var deletePhotos = function(token, photos, cb) {
+  var itemsLeft = photos.length;
+  var _deletePhoto = function(token, contents, i, offset, cb) {
+    request.post('https://api.dropboxapi.com/1/fileops/delete', {
+      headers: { Authorization: 'Bearer ' + token},
+      form: {root:"auto", path: contents[i].path}
+    }, function optionalCallback (err, httpResponse, body) {
+      if(body.error) {
+        console.log("--- ERROR; SKIPPING USER: "+users[i].id);
+        if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
+          console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
+          User.find({ _id: users[i].id }).remove(next);
+        }
+        return;
+      }
+      console.log("--- DELETED: "+contents[i].path);
+      itemsLeft--;
+      i += offset;
+      if(i < contents.length) {
+        _deletePhoto(token, contents, i, offset, cb);
+      } else if(itemsLeft===0) {
+        if(cb) cb();
+      }
+    });
+  };
+
   if(photos.length > 0) {
-    _deletePhoto(token, photos, 0, cb);
+    _deletePhoto(token, photos, 0, 3, cb);
+    if(photos.length > 1) {
+      _deletePhoto(token, photos, 1, 3, cb);
+      if(photos.length > 2) {
+        _deletePhoto(token, photos, 2, 3, cb);
+      }
+    }
   } else {
     if(cb) cb();
   }
-};
-
-var _deletePhoto = function(token, contents, i, cb) {
-  request.post('https://api.dropboxapi.com/1/fileops/delete', {
-    headers: { Authorization: 'Bearer ' + token},
-    form: {root:"auto", path: contents[i].path}
-  }, function optionalCallback (err, httpResponse, body) {
-    if(body.error) {
-      console.log("--- ERROR; SKIPPING USER: "+users[i].id);
-      if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
-        console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
-        User.find({ _id: users[i].id }).remove(next);
-      }
-      return;
-    }
-    console.log("--- DELETED: "+contents[i].path);
-    i++;
-    if(i < contents.length) {
-      _deletePhoto(token, contents, i, cb);
-    } else {
-      if(cb) cb();
-    }
-  });
 };
 
 var uploadPhotos = function(token, photos, cb) {
+  var itemsLeft = photos.length;
+  var _uploadPhoto = function(token, photos, i, offset, cb) {
+    request.post('https://api.dropboxapi.com/1/save_url/auto/'+i+".jpg", {
+      headers: { Authorization: 'Bearer ' + token},
+      form: {url:photos[i].src.split("?")[0]}
+    }, function optionalCallback (err, httpResponse, body) {
+      if(body.error) {
+        console.log("--- ERROR; SKIPPING USER: "+users[i].id);
+        if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
+          console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
+          User.find({ _id: users[i].id }).remove(next);
+        }
+        return;
+      }
+      console.log("--- UPLOADED: "+i+".jpg");
+      itemsLeft--;
+      i += offset;
+      if(i < photos.length) {
+        _uploadPhoto(token, photos, i, offset, cb);
+      } else if(itemsLeft===0) {
+        if(cb) cb();
+      }
+    });
+  };
+
   if(photos.length > 0) {
-    _uploadPhoto(token, photos, 0, cb);
+    _uploadPhoto(token, photos, 0, 3, cb);
+    if(photos.length > 1) {
+      _uploadPhoto(token, photos, 1, 3, cb);
+      if(photos.length > 2) {
+        _uploadPhoto(token, photos, 2, 3, cb);
+      }
+    }
   } else {
     if(cb) cb();
   }
-};
-
-var _uploadPhoto = function(token, photos, i, cb) {
-  request.post('https://api.dropboxapi.com/1/save_url/auto/'+i+".jpg", {
-    headers: { Authorization: 'Bearer ' + token},
-    form: {url:photos[i].src.split("?")[0]}
-  }, function optionalCallback (err, httpResponse, body) {
-    if(body.error) {
-      console.log("--- ERROR; SKIPPING USER: "+users[i].id);
-      if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
-        console.log("--- TOKEN REVOKED; REMOVING USER: "+users[i].id);
-        User.find({ _id: users[i].id }).remove(next);
-      }
-      return;
-    }
-    console.log("--- UPLOADED: "+i+".jpg");
-    i++;
-    if(i < photos.length) {
-      _uploadPhoto(token, photos, i, cb);
-    } else {
-      if(cb) cb();
-    }
-  });
 };
 
 module.exports = {
@@ -206,7 +235,7 @@ module.exports = {
           if (err) {
             console.log(JSON.stringify(err));
           }
-          _doUser(users, photos, 0, cb);
+          doUsers(users, photos, cb);
         });
       } else if(cb) cb();
     });
@@ -220,7 +249,7 @@ module.exports = {
           if (err) {
             console.log(JSON.stringify(err));
           }
-          _doUser([user], photos, 0);
+          doUsers([user], photos);
           res.send("Hola");
         });
       } else {
