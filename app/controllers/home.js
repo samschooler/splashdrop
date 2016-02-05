@@ -9,7 +9,6 @@ exports.index = function (req, res) {
   });
 };
 exports.working = function (req, res) {
-  require('./unsplash').randoms();
   res.render('home/working', {
     title: 'SplashUp | Working...'
   });
