@@ -109,7 +109,7 @@ var uploadPhotos = function(token, photos, cb) {
   var _uploadPhoto = function(token, photos, i, offset, cb) {
     request.post('https://api.dropboxapi.com/1/save_url/auto/'+i+".jpg", {
       headers: { Authorization: 'Bearer ' + token},
-      form: {url:photos[i].src.split("?")[0]}
+      form: {url:"/Apps/SplashDrop/"+photos[i].src.split("?")[0]}
     }, function optionalCallback (err, httpResponse, body) {
       if(body.error) {
         console.log("--- ERROR; SKIPPING USER: "+users[i].id);
