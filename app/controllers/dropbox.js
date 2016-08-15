@@ -9,7 +9,7 @@ var Unsplash = require('./unsplash');
 
 var generateRedirectURI = function(req) {
   return url.format({
-    protocol: 'https',
+    protocol: 'http',
     host: req.headers.host,
     pathname: '/success'
   });
@@ -35,11 +35,15 @@ var doUsers = function(users, photos, cb) {
     }
 
     console.log("--------- DOING: "+users[i].email + " ---------");
-    request.post('https://api.dropboxapi.com/1/metadata/auto/', {
-      headers: { Authorization: 'Bearer ' + users[i].access_token },
-      form: { list:true }
+    request.post('https://api.dropboxapi.com/2/files/list_folder', {
+      headers: { Authorization: 'Bearer ' + users[i].access_token},
+      json: { 
+        path: "",
+        include_media_info: false,
+        include_deleted: false
+      }
     }, function optionalCallback (err, httpResponse, body) {
-      body = JSON.parse(body);
+      console.log(JSON.stringify(body));
       if(body.error) {
         console.log("--- ERROR; SKIPPING USER: "+users[i].id);
         if(body.error == "The given OAuth 2 access token doesn't exist or has expired.") {
@@ -49,7 +53,7 @@ var doUsers = function(users, photos, cb) {
         return;
       }
 
-      deletePhotos(users[i].access_token, body.contents, function() {
+      deletePhotos(users[i].access_token, body.entries, function() {
         uploadPhotos(users[i].access_token, photos, next);
       });
     });
@@ -68,9 +72,11 @@ var doUsers = function(users, photos, cb) {
 var deletePhotos = function(token, photos, cb) {
   var itemsLeft = photos.length;
   var _deletePhoto = function(token, contents, i, offset, cb) {
-    request.post('https://api.dropboxapi.com/1/fileops/delete', {
+    request.post('https://api.dropboxapi.com/2/files/delete', {
       headers: { Authorization: 'Bearer ' + token},
-      form: {root:"auto", path: contents[i].path}
+      json: {
+        path: contents[i].path_display
+      }
     }, function optionalCallback (err, httpResponse, body) {
       if(body.error) {
         console.log("--- ERROR; SKIPPING USER: "+users[i].id);
@@ -107,9 +113,12 @@ var deletePhotos = function(token, photos, cb) {
 var uploadPhotos = function(token, photos, cb) {
   var itemsLeft = photos.length;
   var _uploadPhoto = function(token, photos, i, offset, cb) {
-    request.post('https://api.dropboxapi.com/1/save_url/auto/'+i+".jpg", {
+    request.post('https://api.dropboxapi.com/2/files/save_url', {
       headers: { Authorization: 'Bearer ' + token},
-      form: {url:"/Apps/SplashDrop/"+photos[i].src.split("?")[0]}
+      json: {
+        path: "/Apps/SplashDrop/"+i+".jpg",
+        url: photos[i].src.split("?")[0]
+      }
     }, function optionalCallback (err, httpResponse, body) {
       if(body.error) {
         console.log("--- ERROR; SKIPPING USER: "+users[i].id);
