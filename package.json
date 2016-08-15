@@ -1,11 +1,12 @@
 {
-  "name": "DropSplash",
+  "name": "SplashDrop",
   "version": "1.0.0",
-  "homepage": "https://dropsplash.sam.ink/",
+  "homepage": "https://splashdrop.sam.ink/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openshift/origin-server"
+    "url": "https://github.com/samschooler/splashdrop.git"
   },
+  "license": "MIT",
   "engines": {
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"

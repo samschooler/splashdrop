@@ -10,7 +10,7 @@ deploy:
   app: $OPENSHIFT_APP
   domain: $OPENSHIFT_DOMAIN
   on:
-    repo: quaz3l/splashup
+    repo: samschooler/splashdrop
 before_script:
 - npm install expresso
 after_success:
