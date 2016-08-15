@@ -15,7 +15,6 @@ var csrf = require('csurf');
 var swig = require('swig');
 
 var mongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
 var winston = require('winston');
 var helpers = require('view-helpers');
 var config = require('./config');
@@ -27,7 +26,7 @@ var env = process.env.NODE_ENV || 'development';
  * Expose
  */
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
 
   // Compression middleware (should be placed before express.static)
   app.use(compression({
@@ -101,13 +100,6 @@ module.exports = function (app, passport) {
       collection : 'sessions'
     })
   }));
-
-  // use passport session
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  // connect flash for flash messages - should be declared after sessions
-  app.use(flash());
 
   // should be declared after session and flash
   app.use(helpers(pkg.name));

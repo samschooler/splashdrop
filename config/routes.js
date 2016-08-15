@@ -11,7 +11,7 @@ var dropbox = require('../app/controllers/dropbox');
  * Expose
  */
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
 
   app .get('/', home.index);
   app .get('/working', home.working);
