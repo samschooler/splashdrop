@@ -116,7 +116,7 @@ var uploadPhotos = function(token, photos, cb) {
     request.post('https://api.dropboxapi.com/2/files/save_url', {
       headers: { Authorization: 'Bearer ' + token},
       json: {
-        path: "/Apps/SplashDrop/"+i+".jpg",
+        path: "/"+i+".jpg",
         url: photos[i].src.split("?")[0]
       }
     }, function optionalCallback (err, httpResponse, body) {
