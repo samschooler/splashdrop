@@ -59,18 +59,20 @@ module.exports = {
       var num = 15;
       var _photos = [];
       var at = 0;
-      var url = 'https://source.unsplash.com/featured';
+      var url = 'https://api.unsplash.com/photos/random?client_id=bf93960c3661a6bfa24e9cde976afe75b96cffc96f0d6882e875c4696f91717d&featured=true&orientation=landscape';
 
       console.log("--- LOADING UNSPLASH...");
       var _random = function(at, cb) {
         console.log("--- GETTING PHOTO: "+at);
         request.get(url, function (err, response, body) {
-            if (err) {
+            var body = JSON.parse(body);
+            console.log(JSON.stringify(body));
+            if (err || !body.urls) {
               if(cb) cb(err, null);
               return;
             }
 
-            _photos.push({ src: response.request.href.split("?")[0] });
+            _photos.push({ src: body.urls.full });
 
             if(at < num) {
               at++;
